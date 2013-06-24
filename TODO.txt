@@ -1,0 +1,16 @@
+- Find out why Lesson 10 doesn't run on Linux (I see a segfault on start)
+
+- Test on Windows (Visual Studio + CMake)
+
+- Fix repetitive vsync configuration adjustment, see http://en.sfml-dev.org/forums/index.php?topic=4481.msg29255#msg29255
+
+- Is everything ok regarding Z-buffer, or whichever hidden-region-elimination (TODO: what are these called again?) algo we're going with? Things look funny... maybe this is actually all fine? Lesson 7 certainly doesn't look right... is that intentional?
+
+- Cruft-removal: delete any stray commented-out code
+
+- Go through anywhere in the code where the string "TODO" appears
+
+- Port the non-lesson cpp files
+
+- Add a COPYING file (or copying.txt), and reintroduce the requirement for it in CMakeLists.txt
+

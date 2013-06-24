@@ -1,0 +1,67 @@
+==========================================================================
+                         Building the Tutorials
+==========================================================================
+
+CMake is used to build the tutorials.
+Whatever your platform, you will need CMake (http://www.cmake.org/).
+
+
+==========================================================================
+                           Ubuntu Specifics
+==========================================================================
+
+Four shell-scripts are included. Other than nuke-cmake.sh they are all
+useful for running CMake to configure a build on Unix-like systems.
+
+ubuntu-cmake-run.sh assumes SFML 2 has been installed from source,
+to the default places.
+
+* Example build on Ubuntu: *
+    ./ubuntu-cmake-run.sh && make
+
+
+==========================================================================
+                            Windows Specifics
+==========================================================================
+
+TODO
+
+
+==========================================================================
+                            Mac Specifics
+==========================================================================
+
+Unlike in Ubuntu, in OS X there is no standard SFML installation:
+mac-cmake-run-with-clang.sh and mac-cmake-run.sh will need adjusting
+depending on where SFML 2 resides on your system.
+
+--------------------------------------------------------------------------
+                        Mac 'Framework' Issues
+--------------------------------------------------------------------------
+
+SFML 2 for Mac has some framework dependencies, apparently caused by
+Apple no longer shipping OS X with a bundled X server.
+
+Annoyingly, this is not apparent at CMake time, or even at make time:
+it will only cause a problem at run-time.
+
+(OS X's X server lives on as XQuartz, which is not included in OS X.
+SFML for Mac does not use X11, but has dependencies on things which
+generally won't be present on a Mac unless XQuartz is installed.)
+
+If you have XQuartz installed, you should in theory already have the
+required frameworks.
+I found that Snow Leopard does *not* appear to have the frameworks,
+despite including an X server.
+
+If you do not have the frameworks installed, you can either install XQuartz
+(http://xquartz.macosforge.org/) or get just the specific frameworks: run
+    git clone https://github.com/LaurentGomila/SFML
+then look in SFML/extlibs/libs-osx/Frameworks
+Move both the directories contained therein to /Library/Frameworks
+
+Discussion of this issue can be found at
+https://github.com/LaurentGomila/SFML/commit/54bc8644844aaea2209c495f57b240cd371810c6
+https://github.com/LaurentGomila/SFML/issues/241
+https://github.com/LaurentGomila/SFML/issues/342
+
