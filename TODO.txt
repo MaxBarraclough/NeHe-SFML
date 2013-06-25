@@ -1,7 +1,5 @@
 - Port the rest of the lessons. (Currently we have only the first 12.)
 
-- Find out why Lesson 10 doesn't run on Linux (I see a segfault on start)
-
 - Test on Windows (Visual Studio + CMake)
 
 - Fix repetitive vsync configuration adjustment, see http://en.sfml-dev.org/forums/index.php?topic=4481.msg29255#msg29255
