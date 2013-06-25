@@ -62,9 +62,15 @@ void setupWorld()
 {
 	float x, y, z, u, v;
 	int numtriangles;
-	FILE *filein;
 	char oneline[255];
-	filein = fopen("data/world.txt", "rt");                 // File from which to load world data
+
+	FILE *filein = fopen("data/world.txt", "rt");                 // File from which to load world data
+
+	if (NULL == filein)                                           // Ensure file opened ok.
+	{                                                             // If not, file was probably not found.
+		fputs("File not found: data/world.txt\nExiting\n", stderr);
+		exit(1);
+	}
 
 	readstr(filein,oneline);
 	sscanf(oneline, "NUMPOLLIES %d\n", &numtriangles);
