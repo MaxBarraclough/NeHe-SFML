@@ -1,14 +1,17 @@
-#Change this if you need to target a specific CMake version
+## This file is based on the CMake example given at
+## https://github.com/LaurentGomila/SFML/wiki/Tutorial%3A-Build-your-SFML-project-with-CMake
+
+## Change this if you need to target a specific CMake version
 cmake_minimum_required(VERSION 2.6)
 project(myproject)
 
-# Enable debug symbols by default
+## Enable debug symbols by default
 if(CMAKE_BUILD_TYPE STREQUAL "")
   set(CMAKE_BUILD_TYPE Debug)
 endif()
-# (you can also set it on the command line: -D CMAKE_BUILD_TYPE=Release)
+## (you can also set it on the command line: -D CMAKE_BUILD_TYPE=Release)
 
-# Set version information in a config.h file
+## Set version information in a config.h file
 set(myproject_VERSION_MAJOR 1)
 set(myproject_VERSION_MINOR 0)
 configure_file(
@@ -17,7 +20,7 @@ configure_file(
   )
 include_directories("${PROJECT_BINARY_DIR}")
 
-# Define sources and executable
+## Define sources and executable
 set(EXECUTABLE_NAME_1  "nehe_lesson_01")
 set(EXECUTABLE_NAME_2  "nehe_lesson_02")
 set(EXECUTABLE_NAME_3  "nehe_lesson_03")
@@ -45,10 +48,10 @@ add_executable(${EXECUTABLE_NAME_11} nehe_lesson_11.cpp)
 add_executable(${EXECUTABLE_NAME_12} nehe_lesson_12.cpp)
 
 
-# Detect and add SFML
+## Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-#Find any version 2.X of SFML
-#See the FindSFML.cmake file for additional details and instructions
+## Find any version 2.X of SFML
+## See FindSFML.cmake for additional details and instructions
 find_package(SFML 2 REQUIRED system window graphics network audio)
 if(SFML_FOUND)
   include_directories(${SFML_INCLUDE_DIR})
@@ -67,7 +70,7 @@ if(SFML_FOUND)
 endif()
 
 
-# Install target
+## Install target
 install(TARGETS ${EXECUTABLE_NAME_1}  DESTINATION bin)
 install(TARGETS ${EXECUTABLE_NAME_2}  DESTINATION bin)
 install(TARGETS ${EXECUTABLE_NAME_3}  DESTINATION bin)
@@ -82,7 +85,7 @@ install(TARGETS ${EXECUTABLE_NAME_11} DESTINATION bin)
 install(TARGETS ${EXECUTABLE_NAME_12} DESTINATION bin)
 
 
-# CPack packaging
+## CPack packaging
 include(InstallRequiredSystemLibraries)
 # set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
 set(CPACK_PACKAGE_VERSION_MAJOR "${myproject_VERSION_MAJOR}")
@@ -104,7 +107,7 @@ if (OPENGL_FOUND)
   target_link_libraries(${EXECUTABLE_NAME_10} ${OPENGL_LIBRARIES})
   target_link_libraries(${EXECUTABLE_NAME_11} ${OPENGL_LIBRARIES})
   target_link_libraries(${EXECUTABLE_NAME_12} ${OPENGL_LIBRARIES})
-  # or: target_link_libraries(${EXECUTABLE_NAME_1} ${OPENGL_gl_LIBRARY})
+  ## or: target_link_libraries(${EXECUTABLE_NAME_1} ${OPENGL_gl_LIBRARY})
 #  target_link_libraries(${EXECUTABLE_NAME_1}  m)  # if you use maths.h
 #  target_link_libraries(${EXECUTABLE_NAME_2}  m)  # if you use maths.h
 #  target_link_libraries(${EXECUTABLE_NAME_3}  m)  # if you use maths.h
@@ -118,3 +121,4 @@ if (OPENGL_FOUND)
 #  target_link_libraries(${EXECUTABLE_NAME_11} m)  # if you use maths.h
 #  target_link_libraries(${EXECUTABLE_NAME_12} m)  # if you use maths.h
 endif()
+
