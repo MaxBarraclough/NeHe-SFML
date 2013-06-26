@@ -105,16 +105,16 @@ if (OPENGL_FOUND)
   target_link_libraries(${EXECUTABLE_NAME_11} ${OPENGL_LIBRARIES})
   target_link_libraries(${EXECUTABLE_NAME_12} ${OPENGL_LIBRARIES})
   # or: target_link_libraries(${EXECUTABLE_NAME_1} ${OPENGL_gl_LIBRARY})
-  target_link_libraries(${EXECUTABLE_NAME_1}  m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_2}  m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_3}  m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_4}  m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_5}  m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_6}  m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_7}  m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_8}  m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_9}  m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_10} m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_11} m)  # if you use maths.h
-  target_link_libraries(${EXECUTABLE_NAME_12} m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_1}  m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_2}  m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_3}  m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_4}  m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_5}  m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_6}  m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_7}  m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_8}  m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_9}  m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_10} m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_11} m)  # if you use maths.h
+#  target_link_libraries(${EXECUTABLE_NAME_12} m)  # if you use maths.h
 endif()
