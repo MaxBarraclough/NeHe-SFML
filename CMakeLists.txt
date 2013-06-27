@@ -122,3 +122,19 @@ if (OPENGL_FOUND)
 #  target_link_libraries(${EXECUTABLE_NAME_12} m)  # if you use maths.h
 endif()
 
+
+## Installers should include the 'data' directory, which should be placed
+## at the same level as the output executables.
+## This isn't ideal (it's certainly not the Unix-ey way to do things),
+## but at least it gets the files included in the installer.
+
+install (FILES "${PROJECT_SOURCE_DIR}/data/NeHe.bmp"
+               "${PROJECT_SOURCE_DIR}/data/cube.bmp"
+               "${PROJECT_SOURCE_DIR}/data/glass.bmp"
+               "${PROJECT_SOURCE_DIR}/data/mud.bmp"
+               "${PROJECT_SOURCE_DIR}/data/star.bmp"
+               "${PROJECT_SOURCE_DIR}/data/tim.bmp"
+               "${PROJECT_SOURCE_DIR}/data/world.txt"
+
+         DESTINATION bin/data)
+

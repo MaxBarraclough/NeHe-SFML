@@ -15,3 +15,7 @@
 
 - Add a COPYING file (or copying.txt), and reintroduce the requirement for it in CMakeLists.txt
 
+- Not sure how to do this regarding resource files, but we could do a more 'proper' installation procedure.
+  See http://www.cmake.org/cmake/help/cmake_tutorial.html :: "Installing and Testing (Step 3)"
+  This would probably mean changes to source: we couldn't just open "data/world.txt". Presumably CPack has a way of handling this stuff somehow.
+
