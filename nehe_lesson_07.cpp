@@ -39,7 +39,6 @@ int loadGLTextures()                                                            
 		glGenTextures(3, &texture[0]);                                          // Create three textures
 
 		sf::Vector2u imgSz = Image.getSize();
-/////////////////////////// TODO USE CRAZY THING WITH REF TO RET THING?
 
 		// Create nearest filtered texture
 		glBindTexture(GL_TEXTURE_2D, texture[0]);

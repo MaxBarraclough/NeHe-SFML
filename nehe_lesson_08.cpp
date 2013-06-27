@@ -220,7 +220,7 @@ int main()
 					break;
 				case sf::Keyboard::B:
 					blend = !blend;
-					if(blend) {    ////// TODO eliminate unnecessary 'if' statement....?
+					if(blend) {
 						glEnable(GL_BLEND);       // Turn blending on
 						glDisable(GL_DEPTH_TEST); // Turn depth testing off
 					} else {

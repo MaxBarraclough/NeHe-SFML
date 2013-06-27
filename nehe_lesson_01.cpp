@@ -14,7 +14,6 @@ bool vsync      = true;         // Turn VSYNC on/off
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                             // Resize and initialize the GL window
 {
-//// TODO optimise by using min function, rather than if
 	if (height==0)                                                          // Prevent a divide by zero by
 	{
 		height=1;                                                       // making height equal one
@@ -67,37 +66,39 @@ int main()
 		{
 			// Close window : exit
 
-
-// TODO switch/case ???
-			if (event.type == sf::Event::Closed)
-				myWindow.close();
-
-			// Resize event : adjust viewport
-			if (event.type == sf::Event::Resized)
-				resizeGLScene(event.size.width, event.size.height);
-
-			// Handle keyboard events
-			if (event.type == sf::Event::KeyPressed) {
-				switch (event.key.code) {
-				case sf::Keyboard::Escape:
+			switch (event.type) {
+				case sf::Event::Closed:
 					myWindow.close();
 					break;
-				case sf::Keyboard::F1:
-					fullscreen = !fullscreen;
-					myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL",
-					                (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
-
-					{
-						sf::Vector2u size = myWindow.getSize();
-						resizeGLScene(size.x,size.y);
+	
+				// Resize event : adjust viewport
+				case sf::Event::Resized:
+					resizeGLScene(event.size.width, event.size.height);
+					break;
+	
+				// Handle keyboard events
+				case sf::Event::KeyPressed:
+					switch (event.key.code) {
+						case sf::Keyboard::Escape:
+							myWindow.close();
+							break;
+		
+						case sf::Keyboard::F1:
+							fullscreen = !fullscreen;
+							myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL",
+							                (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
+		
+							{
+								sf::Vector2u size = myWindow.getSize();
+								resizeGLScene(size.x,size.y);
+							}
+							break;
+		
+						case sf::Keyboard::F5:
+							vsync = !vsync;
+							break;
 					}
 					break;
-				case sf::Keyboard::F5:
-					vsync = !vsync;
-					break;
-				default:
-					break;
-				}
 			}
 		}
 
