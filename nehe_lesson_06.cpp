@@ -72,7 +72,7 @@ void initGL()                                                                   
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);                              // Really nice perspective calculations
 }
 
-int drawGLScene()                                                                       // Here's where we do all the drawing
+void drawGLScene()                                                                      // Here's where we do all the drawing
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                             // Clear the screen and the depth buffer
 	glLoadIdentity();                                                               // Reset the view
@@ -120,7 +120,6 @@ int drawGLScene()                                                               
 	xrot+=0.3f;
 	yrot+=0.2f;
 	zrot+=0.4f;
-	return true;                                                                    // Keep going
 }
 
 int main()

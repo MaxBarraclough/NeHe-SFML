@@ -31,7 +31,7 @@ GLvoid resizeGLScene(GLsizei width, GLsizei height)                             
 	glLoadIdentity();                                                       // Reset the modelview matrix
 }
 
-bool initGL()                                                                   // All setup for OpenGL goes here
+void initGL()                                                                   // All setup for OpenGL goes here
 {
 	glShadeModel(GL_SMOOTH);                                                // Enable smooth shading
 	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                                   // Black background
@@ -39,14 +39,12 @@ bool initGL()                                                                   
 	glEnable(GL_DEPTH_TEST);                                                // Enables depth testing
 	glDepthFunc(GL_LEQUAL);                                                 // The type of depth testing to do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);                      // Really nice perspective calculations
-	return true;                                                            // Initialization went ok
 }
 
-bool drawGLScene()                                                              // Here's where we do all the drawing
+void drawGLScene()                                                              // Here's where we do all the drawing
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                     // Clear screen and depth buffer
 	glLoadIdentity();                                                       // Reset the current modelview matrix
-	return true;                                                            // Everything went ok
 }
 
 int main()

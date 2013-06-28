@@ -34,7 +34,7 @@ GLvoid resizeGLScene(GLsizei width, GLsizei height)             // Resize and in
 	glLoadIdentity();                                               // Reset the modelview matrix
 }
 
-int initGL()                                                            // All setup for OpenGL goes here
+void initGL()                                                           // All setup for OpenGL goes here
 {
 	glShadeModel(GL_SMOOTH);                                        // Enable smooth shading
 	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                           // Black background
@@ -42,10 +42,9 @@ int initGL()                                                            // All s
 	glEnable(GL_DEPTH_TEST);                                        // Enables depth testing
 	glDepthFunc(GL_LEQUAL);                                         // The type of depth testing to do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);              // Really nice perspective calculations
-	return true;                                                    // Initialization went ok
 }
 
-int drawGLScene()                                                       // Here's where we do all the drawing
+void drawGLScene()                                                      // Here's where we do all the drawing
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);             // Clear screen and depth buffer
 	glLoadIdentity();                                               // Reset the current modelview matrix
@@ -71,7 +70,6 @@ int drawGLScene()                                                       // Here'
 	glEnd();                                                        // Done drawing the quad
 	rtri+=0.2f;                                                     // Increase the rotation variable for the triangle ( NEW )
 	rquad-=0.15f;                                                   // Decrease the rotation variable for the quad ( NEW )
-	return true;                                                    // Keep going
 }
 
 int main()
