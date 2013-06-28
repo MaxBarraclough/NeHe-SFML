@@ -9,8 +9,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 
-bool fullscreen=false;                  // Fullscreen flag set to fullscreen mode by default
-bool vsync=true;                        // Turn VSYNC on/off
+bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
+bool vsync = true;                      // Turn VSYNC on/off
 
 GLuint texture[1];                      // Storage for 1 texture
 GLuint box;                             // Storage for the box display list
@@ -84,27 +84,27 @@ GLvoid BuildLists()
 
 int LoadGLTextures()                                                                    // Load bitmaps and convert to textures
 {
-	int Status=false;                                                               // Status indicator
+	int status = false;                                                             // Status indicator
 
-	// Load the bitmap, check for errors, if bitmap's not found quit
-	sf::Image Image;
-	if (Image.loadFromFile("data/cube.bmp"))
+	// Load the bitmap, check for errors, if bitmap is not found then quit     TODO IMPLEMENT QUITTING
+	sf::Image image;
+	if (image.loadFromFile("data/cube.bmp"))
 	{
-		Status=true;                                                            // Set the status to true
+		status = true;                                                          // Set the status to true
 
-		glGenTextures(1, &texture[0]);                                  // Create the texture
+		glGenTextures(1, &texture[0]);                                          // Create the texture
 
 		// Typical texture generation using data from the bitmap
 		glBindTexture(GL_TEXTURE_2D, texture[0]);
 
-		sf::Vector2u imgSz = Image.getSize();
+		sf::Vector2u imgSz = image.getSize();
 
-		glTexImage2D(GL_TEXTURE_2D, 0, 4, imgSz.x, imgSz.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, Image.getPixelsPtr());
+		glTexImage2D(GL_TEXTURE_2D, 0, 4, imgSz.x, imgSz.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	}
 
-	return Status;                                                                  // Return the status
+	return status;                                                                  // Return the status
 }
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                                     // Resize and initialize the GL window
@@ -172,21 +172,21 @@ int drawGLScene()                                                               
 int main()
 {
 	// Create the main window
-	sf::Window App(sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL");
+	sf::Window myWindow(sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL");
 
 	initGL();
 	resizeGLScene(800, 600);
 
 	// Start game loop
-	while (App.isOpen())
+	while (myWindow.isOpen())
 	{
 		// Process events
 		sf::Event event;
-		while (App.pollEvent(event))
+		while (myWindow.pollEvent(event))
 		{
 			// Close window : exit
 			if (event.type == sf::Event::Closed)
-				App.close();
+				myWindow.close();
 
 			// Resize event : adjust viewport
 			if (event.type == sf::Event::Resized)
@@ -195,64 +195,63 @@ int main()
 			// Handle keyboard events
 			if (event.type == sf::Event::KeyPressed) {
 				switch (event.key.code) {
-				case sf::Keyboard::Escape:
-					App.close();
-					break;
-				case sf::Keyboard::F1:
-					fullscreen = !fullscreen;
-					App.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL",
-					           (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
-					initGL();
-					{
-						sf::Vector2u size = App.getSize();
-						resizeGLScene(size.x,size.y);
-					}
-					break;
-				case sf::Keyboard::F5:
-					vsync = !vsync;
-					break;
-				default:
-					break;
+					case sf::Keyboard::Escape:
+						myWindow.close();
+						break;
+
+					case sf::Keyboard::F1:
+						fullscreen = !fullscreen;
+						myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32),
+								"SFML/NeHe OpenGL",
+								(fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
+						initGL();
+						{
+							sf::Vector2u size = myWindow.getSize();
+							resizeGLScene(size.x,size.y);
+						}
+						break;
+
+					case sf::Keyboard::F5:
+						vsync = !vsync;
+						break;
 				}
 			}
 		}
 
-		if (event.type == sf::Event::KeyPressed) {
-			switch (event.key.code) {
+		// Handle movement keys.
+		// Precedence: in case of more keys being down,
+		// then whichever key is checked first wins.
 
-			case sf::Keyboard::Up:
-				xrot-=0.2f;
-				break;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			xrot -= 0.2f;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			xrot += 0.2f;
+		}
 
-			case sf::Keyboard::Down:
-				xrot+=0.2f;
-				break;
+		// Horizontal axis is handled independently from vertical axis
 
-			case sf::Keyboard::Right:
-				yrot+=0.2f;
-				break;
-
-			case sf::Keyboard::Left:
-				yrot-=0.2f;
-				break;
-
-			}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			yrot += 0.2f;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			yrot -= 0.2f;
 		}
 
 
 		// Turn VSYNC on so that animations run at a more reasonable speed on new CPU's/GPU's.
-		App.setVerticalSyncEnabled(vsync);
+		myWindow.setVerticalSyncEnabled(vsync);
 
 		// Set the active window before using OpenGL commands
 		// It's useless here because active window is always the same,
 		// but don't forget it if you use multiple windows or controls
-		App.setActive();
+		myWindow.setActive();
 
 		// Draw some pretty stuff
 		drawGLScene();
 
 		// Finally, display rendered frame on screen
-		App.display();
+		myWindow.display();
 	}
 
 	return EXIT_SUCCESS;

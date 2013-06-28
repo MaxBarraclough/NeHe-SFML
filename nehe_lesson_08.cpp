@@ -244,20 +244,17 @@ int main()
 
 		// Handle movement keys.
 		// Precedence: in case of more keys being down,
-                // then whichever key is checked first wins.
+		// then whichever key is checked first wins.
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) {
 			z -= 0.02f;
 		}
-
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown)) {
 			z += 0.02f;
 		}
-
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			xspeed -= 0.01f;
 		}
-
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			xspeed += 0.01f;
 		}
@@ -267,7 +264,6 @@ int main()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			yspeed += 0.01f;
 		}
-
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			yspeed -= 0.01f;
 		}
