@@ -18,16 +18,12 @@ GLfloat zrot;                           // Z rotation ( NEW )
 
 GLuint texture[1];                      // Storage for one texture ( NEW )
 
-int loadGLTextures()                                                                    // Load bitmaps and convert to textures
+void loadGLTextures()                                                                   // Load bitmaps and convert to textures
 {
-	int status = false;                                                             // Status indicator
-
 	// Load the bitmap, check for errors, if bitmap's not found quit
 	sf::Image image;
 	if (image.loadFromFile("data/NeHe.bmp"))
 	{
-		status=true;                                                            // Set the status to true
-
 		glGenTextures(1, &texture[0]);                                          // Create the texture
 
 		// Typical texture generation using data from the bitmap
@@ -39,8 +35,9 @@ int loadGLTextures()                                                            
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	}
-
-	return status;                                                                  // Return the status
+	else {
+		exit(1);
+	}
 }
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                                     // Resize and initialize the GL window
@@ -62,12 +59,9 @@ GLvoid resizeGLScene(GLsizei width, GLsizei height)                             
 	glLoadIdentity();                                                               // Reset the modelview matrix
 }
 
-int initGL()                                                                            // All setup for OpenGL goes here
+void initGL()                                                                           // All setup for OpenGL goes here
 {
-	if (!loadGLTextures())                                                          // Jump to texture loading routine ( NEW )
-	{
-		return false;                                                           // If texture didn't load return false
-	}
+	loadGLTextures();                                                               // ( NEW )
 
 	glEnable(GL_TEXTURE_2D);                                                        // Enable texture mapping ( NEW )
 	glShadeModel(GL_SMOOTH);                                                        // Enable smooth shading
@@ -76,7 +70,6 @@ int initGL()                                                                    
 	glEnable(GL_DEPTH_TEST);                                                        // Enables depth testing
 	glDepthFunc(GL_LEQUAL);                                                         // The type of depth testing to do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);                              // Really nice perspective calculations
-	return true;                                                                    // Initialization went ok
 }
 
 int drawGLScene()                                                                       // Here's where we do all the drawing
