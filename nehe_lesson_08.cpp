@@ -27,39 +27,36 @@ GLfloat LightPosition[] =       { 0.0f, 0.0f, 2.0f, 1.0f };
 GLuint filter;                          // Which filter to use
 GLuint texture[3];                      // Storage for 3 textures
 
-int loadGLTextures()                    // Load bitmaps and convert to textures
+void loadGLTextures()                   // Load bitmaps and convert to textures
 {
-	int Status = false;             // Status indicator
-
-	// Load the bitmap, check for errors, if bitmap's not found quit
-	sf::Image Image;
-	if (Image.loadFromFile("data/glass.bmp"))
+	// Load the bitmap. If file is not found, then quit.
+	sf::Image image;
+	if (image.loadFromFile("data/glass.bmp"))
 	{
-		Status = true;                                          // Set the status to true
-
 		glGenTextures(3, &texture[0]);                          // Create three textures
 
 		// Create nearest filtered texture
 		glBindTexture(GL_TEXTURE_2D, texture[0]);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-		sf::Vector2u imgSz = Image.getSize();
-		glTexImage2D(GL_TEXTURE_2D, 0, 3, imgSz.x, imgSz.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, Image.getPixelsPtr());
+		sf::Vector2u imgSz = image.getSize();
+		glTexImage2D(GL_TEXTURE_2D, 0, 3, imgSz.x, imgSz.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
 
 		// Create linear filtered texture
 		glBindTexture(GL_TEXTURE_2D, texture[1]);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, 3, imgSz.x, imgSz.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, Image.getPixelsPtr());
+		glTexImage2D(GL_TEXTURE_2D, 0, 3, imgSz.x, imgSz.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
 
 		// Create mipmapped texture
 		glBindTexture(GL_TEXTURE_2D, texture[2]);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, imgSz.x, imgSz.y, GL_RGBA, GL_UNSIGNED_BYTE, Image.getPixelsPtr());
+		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, imgSz.x, imgSz.y, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
 	}
-
-	return Status;                                                          // Return the status
+	else {
+		exit(1);
+	}
 }
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                             // Resize and initialize the GL window
@@ -81,12 +78,9 @@ GLvoid resizeGLScene(GLsizei width, GLsizei height)                             
 	glLoadIdentity();                                                       // Reset the modelview matrix
 }
 
-int initGL()                                                                    // All setup for OpenGL goes here
+void initGL()                                                                   // All setup for OpenGL goes here
 {
-	if (!loadGLTextures())                                                  // Jump to texture loading routine
-	{
-		return false;                                                   // If texture didn't load return false
-	}
+	loadGLTextures();                                                       // Jump to texture loading routine
 
 	glEnable(GL_TEXTURE_2D);                                                // Enable texture mapping
 	glShadeModel(GL_SMOOTH);                                                // Enable smooth shading
@@ -104,11 +98,9 @@ int initGL()                                                                    
 
 	glColor4f(1.0f, 1.0f, 1.0f, 0.5);                                       // Full brightness.  50% alpha
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE);                                       // Set the blending function for translucency
-
-	return true;                                                            // Initialization went ok
 }
 
-int drawGLScene()                                                               // Here's where we do all the drawing
+void drawGLScene()                                                              // Here's where we do all the drawing
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                     // Clear the screen and the depth buffer
 	glLoadIdentity();                                                       // Reset the view
@@ -160,7 +152,6 @@ int drawGLScene()                                                               
 
 	xrot+=xspeed;
 	yrot+=yspeed;
-	return true;                                                            // Keep going
 }
 
 int main()

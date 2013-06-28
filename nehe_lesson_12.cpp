@@ -82,16 +82,12 @@ GLvoid BuildLists()
 	glEndList();
 }
 
-int LoadGLTextures()                                                                    // Load bitmaps and convert to textures
+void loadGLTextures()                                                                   // Load bitmaps and convert to textures
 {
-	int status = false;                                                             // Status indicator
-
-	// Load the bitmap, check for errors, if bitmap is not found then quit     TODO IMPLEMENT QUITTING
+	// Load the bitmap. If file is not found, then quit.
 	sf::Image image;
 	if (image.loadFromFile("data/cube.bmp"))
 	{
-		status = true;                                                          // Set the status to true
-
 		glGenTextures(1, &texture[0]);                                          // Create the texture
 
 		// Typical texture generation using data from the bitmap
@@ -103,8 +99,9 @@ int LoadGLTextures()                                                            
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	}
-
-	return status;                                                                  // Return the status
+	else {
+		exit(1);
+	}
 }
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                                     // Resize and initialize the GL window
@@ -126,12 +123,10 @@ GLvoid resizeGLScene(GLsizei width, GLsizei height)                             
 	glLoadIdentity();                                                               // Reset the modelview matrix
 }
 
-int initGL()                                                                            // All setup for OpenGL goes here
+void initGL()                                                                           // All setup for OpenGL goes here
 {
-	if (!LoadGLTextures())                                                          // Jump to texture loading routine
-	{
-		return false;                                                           // If texture didn't load return false
-	}
+	loadGLTextures();                                                               // Jump to texture loading routine
+
 	BuildLists();                                                                   // Jump to the code that creates our display lists
 
 	glEnable(GL_TEXTURE_2D);                                                        // Enable texture mapping
@@ -144,29 +139,34 @@ int initGL()                                                                    
 	glEnable(GL_LIGHTING);                                                          // Enable lighting
 	glEnable(GL_COLOR_MATERIAL);                                                    // Enable material coloring
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);                              // Really nice perspective calculations
-	return true;                                                                    // Initialization went ok
 }
 
-int drawGLScene()                                                                       // Here's where we do all the drawing
+void drawGLScene()                                                                      // Here's where we do all the drawing
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                             // Clear the screen and the depth buffer
 
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	for (yloop=1; yloop<6; yloop++)
+	for (yloop = 1; yloop < 6; ++yloop)
 	{
-		for (xloop=0; xloop<yloop; xloop++)
+		for (xloop = 0; xloop < yloop; ++xloop)
 		{
 			glLoadIdentity();                                               // Reset the view
-			glTranslatef(1.4f+(float(xloop)*2.8f)-(float(yloop)*1.4f),((6.0f-float(yloop))*2.4f)-7.0f,-20.0f);
-			glRotatef(45.0f-(2.0f*yloop)+xrot,1.0f,0.0f,0.0f);
-			glRotatef(45.0f+yrot,0.0f,1.0f,0.0f);
+			glTranslatef(	1.4f + (float(xloop)  * 2.8f) - (float(yloop) * 1.4f),
+                                      ((6.0f -  float(yloop)) * 2.4f) - 7.0f,
+					-20.0f);
+
+			glRotatef( xrot + 45.0f - (2.0f * yloop),
+				   1.0f,
+				   0.0f,
+				   0.0f);
+
+			glRotatef(yrot + 45.0f, 0.0f, 1.0f, 0.0f);
 			glColor3fv(boxcol[yloop-1]);
 			glCallList(box);
 			glColor3fv(topcol[yloop-1]);
 			glCallList(top);
 		}
 	}
-	return true;                                                                    // Keep going
 }
 
 int main()
@@ -184,37 +184,42 @@ int main()
 		sf::Event event;
 		while (myWindow.pollEvent(event))
 		{
-			// Close window : exit
-			if (event.type == sf::Event::Closed)
-				myWindow.close();
+			switch (event.type) {
+				// Close window : exit
+				case sf::Event::Closed:
+					myWindow.close();
+					break;
 
-			// Resize event : adjust viewport
-			if (event.type == sf::Event::Resized)
-				resizeGLScene(event.size.width, event.size.height);
+				// Resize event : adjust viewport
+				case sf::Event::Resized:
+					resizeGLScene(event.size.width, event.size.height);
+					break;
 
-			// Handle keyboard events
-			if (event.type == sf::Event::KeyPressed) {
-				switch (event.key.code) {
-					case sf::Keyboard::Escape:
-						myWindow.close();
-						break;
+				// Handle keyboard events
+				case sf::Event::KeyPressed: {
+					switch (event.key.code) {
+						case sf::Keyboard::Escape:
+							myWindow.close();
+							break;
 
-					case sf::Keyboard::F1:
-						fullscreen = !fullscreen;
-						myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32),
-								"SFML/NeHe OpenGL",
-								(fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
-						initGL();
-						{
-							sf::Vector2u size = myWindow.getSize();
-							resizeGLScene(size.x,size.y);
-						}
-						break;
+						case sf::Keyboard::F1:
+							fullscreen = !fullscreen;
+							myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32),
+									"SFML/NeHe OpenGL",
+									(fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
+							initGL();
+							{
+								sf::Vector2u size = myWindow.getSize();
+								resizeGLScene(size.x,size.y);
+							}
+							break;
 
-					case sf::Keyboard::F5:
-						vsync = !vsync;
-						break;
+						case sf::Keyboard::F5:
+							vsync = !vsync;
+							break;
+					}
 				}
+				break;
 			}
 		}
 

@@ -23,16 +23,12 @@ GLfloat hold;                           // Temporarily holds a floating point va
 
 GLuint texture[1];                      // Storage for one texture ( NEW )
 
-int loadGLTextures()                    // Load bitmaps and convert to textures
+void loadGLTextures()                  // Load bitmaps and convert to textures
 {
-	int status = false;             // Status indicator
-
-	// Load the bitmap, check for errors, if bitmap's not found quit
+	// Load the bitmap. If file is not found, then quit.
 	sf::Image image;
 	if (image.loadFromFile("data/tim.bmp"))
 	{
-		status = true;                                                  // Set the status to true
-
 		glGenTextures(1, &texture[0]);                                  // Create the texture
 
 		// Typical texture generation using data from the bitmap
@@ -44,8 +40,9 @@ int loadGLTextures()                    // Load bitmaps and convert to textures
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	}
-
-	return status;                                                          // Return the status
+	else {
+		exit(1);
+	}
 }
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                             // Resize and initialize the GL window
@@ -67,12 +64,9 @@ GLvoid resizeGLScene(GLsizei width, GLsizei height)                             
 	glLoadIdentity();                                                       // Reset the modelview matrix
 }
 
-int initGL()                                                                    // All setup for OpenGL goes here
+void initGL()                                                                   // All setup for OpenGL goes here
 {
-	if (!loadGLTextures())                                                  // Jump to texture loading routine ( NEW )
-	{
-		return false;                                                   // If texture didn't load return false
-	}
+	loadGLTextures();                                                       // Jump to texture loading routine ( NEW )
 
 	glEnable(GL_TEXTURE_2D);                                                // Enable texture mapping ( NEW )
 	glShadeModel(GL_SMOOTH);                                                // Enable smooth shading
@@ -93,11 +87,9 @@ int initGL()                                                                    
 			points[x][y][2]=float(sin((((x/5.0f)*40.0f)/360.0f)*3.141592654*2.0f));
 		}
 	}
-
-	return true;                                                            // Initialization went ok
 }
 
-int drawGLScene()                                                               // Here's where we do all the drawing
+void drawGLScene()                                                              // Here's where we do all the drawing
 {
 	int x, y;
 	float float_x, float_y, float_xb, float_yb;
@@ -152,13 +144,11 @@ int drawGLScene()                                                               
 		wiggle_count = 0;
 	}
 
-	wiggle_count++;
+	++wiggle_count;
 
 	xrot+=0.3f;
 	yrot+=0.2f;
 	zrot+=0.4f;
-
-	return true;                                                            // Keep going
 }
 
 int main()
