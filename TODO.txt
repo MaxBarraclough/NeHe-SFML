@@ -8,6 +8,10 @@
 
 - Cruft-removal: delete any stray commented-out code
 
+- Formatting:
+  +  no more tabs, just spaces. Or the other way round.
+  +  spaces between operators: "a + b / c" rather than "a+b/c"
+
 - Go through anywhere in the code where the string "TODO" appears
 
 - Port the non-lesson cpp files
