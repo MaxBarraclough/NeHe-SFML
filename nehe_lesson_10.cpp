@@ -11,8 +11,8 @@
 #include <stdio.h>                      // Header file for standard input/output
 #include <cmath>                        // for sin and cos
 
-bool fullscreen=false;          // Fullscreen flag set to fullscreen mode by default
-bool vsync=true;            // Turn VSYNC on/off
+bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
+bool vsync = true;                      // Turn VSYNC on/off
 
 bool blend;                             // Blending ON/OFF
 
@@ -235,102 +235,103 @@ int main()
 		sf::Event event;
 		while (myWindow.pollEvent(event))
 		{
-			// Close window : exit
-			if (event.type == sf::Event::Closed)
-				myWindow.close();
-
-			// Resize event : adjust viewport
-			if (event.type == sf::Event::Resized)
-				resizeGLScene(event.size.width, event.size.height);
-
-			// Handle keyboard events
-			if (event.type == sf::Event::KeyPressed) {
-				switch (event.key.code) {
-				case sf::Keyboard::Escape:
+			switch (event.type) {
+				// Close window : exit
+				case sf::Event::Closed:
 					myWindow.close();
 					break;
-				case sf::Keyboard::F1:
-					fullscreen = !fullscreen;
-					myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL",
-					                (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
-					{
-						sf::Vector2u size = myWindow.getSize();
-						resizeGLScene(size.x,size.y);
+
+				// Resize event : adjust viewport
+				case sf::Event::Resized:
+					resizeGLScene(event.size.width, event.size.height);
+					break;
+
+				// Handle keyboard events
+				case sf::Event::KeyPressed:
+					switch (event.key.code) {
+						case sf::Keyboard::Escape:
+							myWindow.close();
+							break;
+
+						case sf::Keyboard::F1:
+							fullscreen = !fullscreen;
+							myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32),
+									"SFML/NeHe OpenGL",
+							                (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
+							{
+								sf::Vector2u size = myWindow.getSize();
+								resizeGLScene(size.x,size.y);
+							}
+							break;
+
+						case sf::Keyboard::F5:
+							vsync = !vsync;
+							break;
+
+						case sf::Keyboard::F:
+							++filter;
+							if (filter > 2) { //// TODO use modulo
+								filter = 0;
+							}
+							break;
+
+						case sf::Keyboard::B:
+							blend = !blend;
+							if(blend) {
+								glEnable(GL_BLEND);       // Turn blending on
+								glDisable(GL_DEPTH_TEST); // Turn depth testing off
+							} else {
+								glDisable(GL_BLEND);      // Turn blending off
+								glEnable(GL_DEPTH_TEST);  // Turn depth testing on
+							}
+							break;
 					}
-					break;
-				case sf::Keyboard::F5:
-					vsync = !vsync;
-					break;
-				case sf::Keyboard::F:
-					filter+=1;
-					if (filter>2) {
-						filter=0;
-					}
-					break;
-				case sf::Keyboard::B:
-					blend = !blend;
-					if(blend) {
-						glEnable(GL_BLEND); // Turn blending on
-						glDisable(GL_DEPTH_TEST); // Turn depth testing off
-					} else {
-						glDisable(GL_BLEND); // Turn blending off
-						glEnable(GL_DEPTH_TEST); // Turn depth testing on
-					}
-					break;
-				default:
 					break;
 				}
-			}
 		}
 
 		// Handle movement keys
 
-		if (event.type == sf::Event::KeyPressed) {
-			switch (event.key.code) {
-
-			case sf::Keyboard::PageUp:
-				z-=0.02f;
-				lookupdown-= 1.0f;
-				break;
-
-			case sf::Keyboard::PageDown:
-				z+=0.02f;
-				lookupdown+= 1.0f;
-				break;
-
-			case sf::Keyboard::Up:
-				xpos -= (float)sin(heading*piover180) * 0.05f;
-				zpos -= (float)cos(heading*piover180) * 0.05f;
-				if (walkbiasangle >= 359.0f) {
-					walkbiasangle = 0.0f;
-				} else {
-					walkbiasangle+= 10;
-				}
-				walkbias = (float)sin(walkbiasangle * piover180)/20.0f;
-				break;
-
-			case sf::Keyboard::Down:
-				xpos += (float)sin(heading*piover180) * 0.05f;
-				zpos += (float)cos(heading*piover180) * 0.05f;
-				if (walkbiasangle <= 1.0f) {
-					walkbiasangle = 359.0f;
-				} else {
-					walkbiasangle-= 10;
-				}
-				walkbias = (float)sin(walkbiasangle * piover180)/20.0f;
-				break;
-
-			case sf::Keyboard::Right:
-				heading -= 1.0f;
-				yrot = heading;
-				break;
-
-			case sf::Keyboard::Left:
-				heading += 1.0f;
-				yrot = heading;
-				break;
-			}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) {
+					z-=0.02f;
+					lookupdown-= 1.0f;
 		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown)) {
+					z+=0.02f;
+					lookupdown+= 1.0f;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+					xpos -= (float)sin(heading*piover180) * 0.05f;
+					zpos -= (float)cos(heading*piover180) * 0.05f;
+					if (walkbiasangle >= 359.0f) {
+						walkbiasangle = 0.0f;
+					} else {
+						walkbiasangle+= 10;
+					}
+					walkbias = (float)sin(walkbiasangle * piover180) / 20.0f;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+					xpos += (float)sin(heading*piover180) * 0.05f;
+					zpos += (float)cos(heading*piover180) * 0.05f;
+					if (walkbiasangle <= 1.0f) {
+						walkbiasangle = 359.0f;
+					} else {
+						walkbiasangle-= 10;
+					}
+					walkbias = (float)sin(walkbiasangle * piover180) / 20.0f;
+		}
+
+		// Horizontal axis is treated independently from vertical axis
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+					heading -= 1.0f;
+					yrot = heading;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					heading += 1.0f;
+					yrot = heading;
+		}
+
 
 		// Turn VSYNC on so that animations run at a more reasonable speed on new CPU's/GPU's.
 		myWindow.setVerticalSyncEnabled(vsync);
