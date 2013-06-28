@@ -18,11 +18,11 @@ GLfloat xrot;                           // x rotation
 GLfloat yrot;                           // y rotation
 GLfloat xspeed;                         // x rotation speed
 GLfloat yspeed;                         // y rotation speed
-GLfloat z=-5.0f;                        // Depth into the screen
+GLfloat z = -5.0f;                      // Depth into the screen
 
-GLfloat LightAmbient[]=         { 0.5f, 0.5f, 0.5f, 1.0f };
-GLfloat LightDiffuse[]=         { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat LightPosition[]=        { 0.0f, 0.0f, 2.0f, 1.0f };
+GLfloat LightAmbient[]  =       { 0.5f, 0.5f, 0.5f, 1.0f };
+GLfloat LightDiffuse[]  =       { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat LightPosition[] =       { 0.0f, 0.0f, 2.0f, 1.0f };
 
 GLuint filter;                          // Which filter to use
 GLuint texture[3];                      // Storage for 3 textures
@@ -35,7 +35,7 @@ int loadGLTextures()                    // Load bitmaps and convert to textures
 	sf::Image Image;
 	if (Image.loadFromFile("data/glass.bmp"))
 	{
-		Status = true;                                            // Set the status to true
+		Status = true;                                          // Set the status to true
 
 		glGenTextures(3, &texture[0]);                          // Create three textures
 
@@ -64,7 +64,7 @@ int loadGLTextures()                    // Load bitmaps and convert to textures
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                             // Resize and initialize the GL window
 {
-	if (height == 0)                                                          // Prevent a divide by zero by
+	if (height == 0)                                                        // Prevent a divide by zero by
 	{
 		height=1;                                                       // Making height equal one
 	}

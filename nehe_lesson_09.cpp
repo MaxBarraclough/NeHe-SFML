@@ -9,12 +9,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 
-bool fullscreen=false;                  // Fullscreen flag set to fullscreen mode by default
-bool vsync=true;                        // Turn VSYNC on/off
+bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
+bool vsync = true;                      // Turn VSYNC on/off
 
 bool twinkle;                           // Twinkling stars
 
-const unsigned int num=50;              // Number of stars to draw
+const unsigned int num = 50;            // Number of stars to draw
 
 typedef struct                          // Create a structure for star
 {
@@ -164,60 +164,58 @@ int main()
 		sf::Event event;
 		while (myWindow.pollEvent(event))
 		{
-			// Close window : exit
-			if (event.type == sf::Event::Closed)
-				myWindow.close();
-
-			// Resize event : adjust viewport
-			if (event.type == sf::Event::Resized)
-				resizeGLScene(event.size.width, event.size.height);
-
-			// Handle keyboard events
-			if (event.type == sf::Event::KeyPressed) {
-				switch (event.key.code) {
-				case sf::Keyboard::Escape:
+			switch (event.type) {
+				// Close window : exit
+				case sf::Event::Closed:
 					myWindow.close();
 					break;
-				case sf::Keyboard::F1:
-					fullscreen = !fullscreen;
-					myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL",
-					                (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
-					{
-						sf::Vector2u size = myWindow.getSize();
-						resizeGLScene(size.x,size.y);
+	
+				// Resize event : adjust viewport
+				case sf::Event::Resized:
+					resizeGLScene(event.size.width, event.size.height);
+					break;
+	
+				// Handle keyboard events
+				case sf::Event::KeyPressed:
+					switch (event.key.code) {
+						case sf::Keyboard::Escape:
+							myWindow.close();
+							break;
+	
+						case sf::Keyboard::F1:
+							fullscreen = !fullscreen;
+							myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32),
+									"SFML/NeHe OpenGL",
+							                (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
+							{
+								sf::Vector2u size = myWindow.getSize();
+								resizeGLScene(size.x,size.y);
+							}
+							break;
+	
+						case sf::Keyboard::F5:
+							vsync = !vsync;
+							break;
+	
+						case sf::Keyboard::T:
+							twinkle = !twinkle;
+							break;
 					}
 					break;
-				case sf::Keyboard::F5:
-					vsync = !vsync;
-					break;
-				case sf::Keyboard::T:
-					twinkle = !twinkle;
-					break;
-				default:
-					break;
-				}
 			}
 		}
 
-		if (event.type == sf::Event::KeyPressed) {
-			switch (event.key.code) {
-
-			case sf::Keyboard::PageUp:
-				zoom-=0.2f;
-				break;
-
-			case sf::Keyboard::PageDown:
-				zoom+=0.2f;
-				break;
-
-			case sf::Keyboard::Up:
-				tilt-=0.5f;
-				break;
-
-			case sf::Keyboard::Down:
-				tilt+=0.5f;
-				break;
-			}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) {
+				zoom -= 0.2f;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown)) {
+				zoom += 0.2f;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				tilt -= 0.5f;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				tilt += 0.5f;
 		}
 
 		// Turn VSYNC on so that animations run at a more reasonable speed on new CPU's/GPU's.
