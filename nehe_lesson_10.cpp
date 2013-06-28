@@ -321,7 +321,7 @@ int main()
 					walkbias = (float)sin(walkbiasangle * piover180) / 20.0f;
 		}
 
-		// Horizontal axis is treated independently from vertical axis
+		// Horizontal axis is handled independently from vertical axis
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 					heading -= 1.0f;

@@ -4,6 +4,8 @@
 - Implement does-file-exist checks for *all* file operations.
   (SFML falls back to white polygons if it fails to open image files; we would be better off exiting.)
 
+- Update credits at top of lessons
+
 - Port the rest of the lessons. (Currently we have only the first 12.)
 
 - Fix repetitive vsync configuration adjustment, see http://en.sfml-dev.org/forums/index.php?topic=4481.msg29255#msg29255

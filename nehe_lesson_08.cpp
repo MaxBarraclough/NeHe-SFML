@@ -262,7 +262,7 @@ int main()
 			xspeed += 0.01f;
 		}
 
-		// Horizontal axis is treated independently from vertical axis
+		// Horizontal axis is handled independently from vertical axis
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			yspeed += 0.01f;
