@@ -35,7 +35,7 @@ int loadGLTextures()                    // Load bitmaps and convert to textures
 	sf::Image Image;
 	if (Image.loadFromFile("data/glass.bmp"))
 	{
-		Status=true;                                            // Set the status to true
+		Status = true;                                            // Set the status to true
 
 		glGenTextures(3, &texture[0]);                          // Create three textures
 
@@ -64,7 +64,7 @@ int loadGLTextures()                    // Load bitmaps and convert to textures
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                             // Resize and initialize the GL window
 {
-	if (height==0)                                                          // Prevent a divide by zero by
+	if (height == 0)                                                          // Prevent a divide by zero by
 	{
 		height=1;                                                       // Making height equal one
 	}
@@ -178,90 +178,98 @@ int main()
 		sf::Event event;
 		while (myWindow.pollEvent(event))
 		{
-			// Close window : exit
-			if (event.type == sf::Event::Closed)
-				myWindow.close();
-
-			// Resize event : adjust viewport
-			if (event.type == sf::Event::Resized)
-				resizeGLScene(event.size.width, event.size.height);
-
-			// Handle keyboard events
-			if (event.type == sf::Event::KeyPressed) {
-				switch (event.key.code) {
-				case sf::Keyboard::Escape:
+			switch (event.type) {
+				// Close window : exit
+				case sf::Event::Closed:
 					myWindow.close();
 					break;
-				case sf::Keyboard::F1:
-					fullscreen = !fullscreen;
-					myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL",
-					                (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
-					{
-						sf::Vector2u size = myWindow.getSize();
-						resizeGLScene(size.x,size.y);
+
+				// Resize event : adjust viewport
+				case sf::Event::Resized:
+					resizeGLScene(event.size.width, event.size.height);
+					break;
+
+				// Handle keyboard events
+				case sf::Event::KeyPressed:
+					switch (event.key.code) {
+						case sf::Keyboard::Escape:
+							myWindow.close();
+							break;
+
+						case sf::Keyboard::F1:
+							fullscreen = !fullscreen;
+							myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32),
+									"SFML/NeHe OpenGL",
+							                (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
+							{
+								sf::Vector2u size = myWindow.getSize();
+								resizeGLScene(size.x,size.y);
+							}
+							break;
+
+						case sf::Keyboard::F5:
+							vsync = !vsync;
+							break;
+
+						case sf::Keyboard::L:
+							light=!light;
+							if (!light) {
+								glDisable(GL_LIGHTING);
+							} else {
+								glEnable(GL_LIGHTING);
+							}
+							break;
+
+						case sf::Keyboard::F:
+							filter+=1;
+							if (filter>2) {
+								filter=0;
+							}
+							break;
+
+						case sf::Keyboard::B:
+							blend = !blend;
+							if(blend) {
+								glEnable(GL_BLEND);       // Turn blending on
+								glDisable(GL_DEPTH_TEST); // Turn depth testing off
+							} else {
+								glDisable(GL_BLEND);      // Turn blending off
+								glEnable(GL_DEPTH_TEST);  // Turn depth testing on
+							}
+							break;
 					}
 					break;
-				case sf::Keyboard::F5:
-					vsync = !vsync;
-					break;
-				case sf::Keyboard::L:
-					light=!light;
-					if (!light) {
-						glDisable(GL_LIGHTING);
-					} else {
-						glEnable(GL_LIGHTING);
-					}
-					break;
-				case sf::Keyboard::F:
-					filter+=1;
-					if (filter>2) {
-						filter=0;
-					}
-					break;
-				case sf::Keyboard::B:
-					blend = !blend;
-					if(blend) {
-						glEnable(GL_BLEND);       // Turn blending on
-						glDisable(GL_DEPTH_TEST); // Turn depth testing off
-					} else {
-						glDisable(GL_BLEND);      // Turn blending off
-						glEnable(GL_DEPTH_TEST);  // Turn depth testing on
-					}
-					break;
-				default:
-					break;
-				}
 			}
 		}
 
-		// Handle movement keys
-		if (event.type == sf::Event::KeyPressed) {
-			switch (event.key.code) {
+		// Handle movement keys.
+		// Precedence: in case of more keys being down,
+                // then whichever key is checked first wins.
 
-			case sf::Keyboard::PageUp:
-				z-=0.02f;
-				break;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) {
+			z -= 0.02f;
+		}
 
-			case sf::Keyboard::PageDown:
-				z+=0.02f;
-				break;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown)) {
+			z += 0.02f;
+		}
 
-			case sf::Keyboard::Up:
-				xspeed-=0.01f;
-				break;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			xspeed -= 0.01f;
+		}
 
-			case sf::Keyboard::Down:
-				xspeed+=0.01f;
-				break;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			xspeed += 0.01f;
+		}
 
-			case sf::Keyboard::Right:
-				yspeed+=0.01f;
-				break;
+		// Horizontal axis is treated independently from vertical axis
 
-			case sf::Keyboard::Left:
-				yspeed-=0.01f;
-				break;
-			}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			yspeed += 0.01f;
+		}
+
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			yspeed -= 0.01f;
 		}
 
 		// Turn VSYNC on so that animations run at a more reasonable speed on new CPU's/GPU's.
