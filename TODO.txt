@@ -1,5 +1,6 @@
 - Implement does-file-exist checks for *all* file operations.
   (SFML falls back to white polygons if it fails to open image files; we would be better off exiting.)
+  Remaining: 8 9 10 11 12
 
 - Update credits at top of lessons
 
