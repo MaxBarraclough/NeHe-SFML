@@ -86,12 +86,12 @@ int main()
 				case sf::Event::Closed:
 					myWindow.close();
 					break;
-	
+
 				// Resize event : adjust viewport
 				case sf::Event::Resized:
 					resizeGLScene(event.size.width, event.size.height);
 					break;
-	
+
 				// Handle keyboard events
 				case sf::Event::KeyPressed:
 					switch (event.key.code) {
