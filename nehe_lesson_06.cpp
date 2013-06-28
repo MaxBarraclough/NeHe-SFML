@@ -9,8 +9,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 
-bool fullscreen = false;          // Fullscreen flag set to fullscreen mode by default
-bool vsync = true;            // Turn VSYNC on/off
+bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
+bool vsync = true;                      // Turn VSYNC on/off
 
 GLfloat xrot;                           // X rotation ( NEW )
 GLfloat yrot;                           // Y rotation ( NEW )
@@ -23,8 +23,8 @@ int loadGLTextures()                                                            
 	int status = false;                                                             // Status indicator
 
 	// Load the bitmap, check for errors, if bitmap's not found quit
-	sf::Image Image;
-	if (Image.loadFromFile("data/NeHe.bmp"))
+	sf::Image image;
+	if (image.loadFromFile("data/NeHe.bmp"))
 	{
 		status=true;                                                            // Set the status to true
 
@@ -33,8 +33,8 @@ int loadGLTextures()                                                            
 		// Typical texture generation using data from the bitmap
 		glBindTexture(GL_TEXTURE_2D, texture[0]);
 		{
-			sf::Vector2u vec = Image.getSize();
-			glTexImage2D(GL_TEXTURE_2D, 0, 4, vec.x, vec.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, Image.getPixelsPtr());
+			sf::Vector2u vec = image.getSize();
+			glTexImage2D(GL_TEXTURE_2D, 0, 4, vec.x, vec.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
 		}
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);

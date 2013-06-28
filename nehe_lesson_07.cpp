@@ -9,8 +9,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 
-bool fullscreen = false;          // Fullscreen flag set to fullscreen mode by default
-bool vsync = true;            // Turn VSYNC on/off
+bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
+bool vsync = true;                      // Turn VSYNC on/off
 bool light;                             // Lighting ON/OFF ( NEW )
 
 GLfloat xrot;                           // x rotation
