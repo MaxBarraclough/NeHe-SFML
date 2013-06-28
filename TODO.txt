@@ -1,4 +1,5 @@
 - Fix keyboard event-handling. SFML provides a proper solution for this: isKeyPressed
+  We need to do this on lesson 7, among others...
 
 - Implement does-file-exist checks for *all* file operations.
   (SFML falls back to white polygons if it fails to open image files; we would be better off exiting.)
