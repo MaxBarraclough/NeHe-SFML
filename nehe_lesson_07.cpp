@@ -226,34 +226,34 @@ int main()
 			}
 		}
 
-		// Handle movement keys
-		if (event.type == sf::Event::KeyPressed) {
-			switch (event.key.code) {
+		// Handle movement keys.
+		// Precedence: in case of more keys being down,
+                // then whichever key is checked first wins.
 
-			case sf::Keyboard::PageUp:
-				z-=0.02f;
-				break;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) {
+			z -= 0.02f;
+		}
 
-			case sf::Keyboard::PageDown:
-				z+=0.02f;
-				break;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown)) {
+			z += 0.02f;
+		}
 
-			case sf::Keyboard::Up:
-				xspeed-=0.01f;
-				break;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			xspeed -= 0.01f;
+		}
 
-			case sf::Keyboard::Down:
-				xspeed+=0.01f;
-				break;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			xspeed += 0.01f;
+		}
 
-			case sf::Keyboard::Right:
-				yspeed+=0.01f;
-				break;
+		// Horizontal axis is treated independently from vertical axis
 
-			case sf::Keyboard::Left:
-				yspeed-=0.01f;
-				break;
-			}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			yspeed += 0.01f;
+		}
+
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			yspeed -= 0.01f;
 		}
 
 		// Turn VSYNC on so that animations run at a more reasonable speed on new CPU's/GPU's.
