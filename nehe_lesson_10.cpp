@@ -12,7 +12,7 @@
 #include <cmath>                        // for sin and cos
 
 bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
-bool vsync = true;                      // Turn VSYNC on/off
+bool vsync      = true;                 // Turn VSYNC on/off
 
 bool blend;                             // Blending ON/OFF
 
@@ -22,9 +22,9 @@ float xpos;
 float zpos;
 
 GLfloat yrot;                           // y rotation
-GLfloat walkbias = 0;
-GLfloat walkbiasangle = 0;
-GLfloat lookupdown = 0.0f;
+GLfloat walkBias = 0;
+GLfloat walkBiasangle = 0;
+GLfloat lookUpDown = 0.0f;
 GLfloat z = 0.0f;                       // Depth into the screen
 
 GLuint filter;                          // Which filter to use
@@ -43,7 +43,7 @@ typedef struct tagTRIANGLE
 
 typedef struct tagSECTOR
 {
-	int numtriangles;
+	int numTriangles;
 	TRIANGLE* triangle;
 } SECTOR;
 
@@ -61,7 +61,7 @@ void readstr(FILE *f,char *string)
 void setupWorld()
 {
 	float x, y, z, u, v;
-	int numtriangles;
+	int numTriangles;
 	char oneline[255];
 
 	FILE *filein = fopen("data/world.txt", "rt");                 // File from which to load world data
@@ -73,11 +73,11 @@ void setupWorld()
 	}
 
 	readstr(filein,oneline);
-	sscanf(oneline, "NUMPOLLIES %d\n", &numtriangles);
+	sscanf(oneline, "NUMPOLLIES %d\n", &numTriangles);
 
-	sector1.triangle = new TRIANGLE[numtriangles];
-	sector1.numtriangles = numtriangles;
-	for (int loop = 0; loop < numtriangles; loop++)
+	sector1.triangle = new TRIANGLE[numTriangles];
+	sector1.numTriangles = numTriangles;
+	for (int loop = 0; loop < numTriangles; ++loop)
 	{
 		for (int vert = 0; vert < 3; vert++)
 		{
@@ -91,7 +91,6 @@ void setupWorld()
 		}
 	}
 	fclose(filein);
-	return;
 }
 
 void loadGLTextures()                                                                   // Load bitmaps and convert to textures
@@ -167,23 +166,21 @@ void drawGLScene()                                                              
 	glLoadIdentity();                                                       // Reset the view
 
 	GLfloat x_m, y_m, z_m, u_m, v_m;
-	GLfloat xtrans = -xpos;
-	GLfloat ztrans = -zpos;
-	GLfloat ytrans = -walkbias-0.25f;
-	GLfloat sceneroty = 360.0f - yrot;
+	GLfloat xTrans = -xpos;
+	GLfloat zTrans = -zpos;
+	GLfloat yTrans = -walkBias-0.25f;
+	GLfloat sceneRotY = 360.0f - yrot;
 
-	int numtriangles;
+	glRotatef(lookUpDown,1.0f,0,0);
+	glRotatef(sceneRotY,0,1.0f,0);
 
-	glRotatef(lookupdown,1.0f,0,0);
-	glRotatef(sceneroty,0,1.0f,0);
-
-	glTranslatef(xtrans, ytrans, ztrans);
+	glTranslatef(xTrans, yTrans, zTrans);
 	glBindTexture(GL_TEXTURE_2D, texture[filter]);
 
-	numtriangles = sector1.numtriangles;
+	int numTriangles = sector1.numTriangles;
 
 	// Process each triangle
-	for (int loop_m = 0; loop_m < numtriangles; loop_m++)
+	for (int loop_m = 0; loop_m < numTriangles; ++loop_m)
 	{
 		glBegin(GL_TRIANGLES);
 		glNormal3f( 0.0f, 0.0f, 1.0f);
@@ -285,31 +282,31 @@ int main()
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) {
 					z-=0.02f;
-					lookupdown-= 1.0f;
+					lookUpDown-= 1.0f;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown)) {
 					z+=0.02f;
-					lookupdown+= 1.0f;
+					lookUpDown+= 1.0f;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 					xpos -= (float)sin(heading*piover180) * 0.05f;
 					zpos -= (float)cos(heading*piover180) * 0.05f;
-					if (walkbiasangle >= 359.0f) {
-						walkbiasangle = 0.0f;
+					if (walkBiasangle >= 359.0f) {
+						walkBiasangle = 0.0f;
 					} else {
-						walkbiasangle+= 10;
+						walkBiasangle+= 10;
 					}
-					walkbias = (float)sin(walkbiasangle * piover180) / 20.0f;
+					walkBias = (float)sin(walkBiasangle * piover180) / 20.0f;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 					xpos += (float)sin(heading*piover180) * 0.05f;
 					zpos += (float)cos(heading*piover180) * 0.05f;
-					if (walkbiasangle <= 1.0f) {
-						walkbiasangle = 359.0f;
+					if (walkBiasangle <= 1.0f) {
+						walkBiasangle = 359.0f;
 					} else {
-						walkbiasangle-= 10;
+						walkBiasangle -= 10;
 					}
-					walkbias = (float)sin(walkbiasangle * piover180) / 20.0f;
+					walkBias = (float)sin(walkBiasangle * piover180) / 20.0f;
 		}
 
 		// Horizontal axis is handled independently from vertical axis
