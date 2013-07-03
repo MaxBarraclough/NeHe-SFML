@@ -2,6 +2,9 @@
 
 - Indentation of lines between glBegin(); and glEnd();
 
+- Add links to NeHe's web-pages explaining the lessons' content,
+  e.g. lesson 5 -> http://nehe.gamedev.net/tutorial/3d_shapes/10035/
+
 - should we be using floats, in the form of 1.0f, rather than doubles, if they eventually end up as GLfloat or GLdouble ?
 
 - Port the rest of the lessons. (Currently we have only the first 12.)
@@ -9,6 +12,7 @@
 - Fix repetitive vsync configuration adjustment, see http://en.sfml-dev.org/forums/index.php?topic=4481.msg29255#msg29255
 
 - Is everything ok regarding Z-buffer, or whichever hidden-region-elimination (TODO: what are these called again?) algo we're going with? Things look funny... maybe this is actually all fine? Lesson 7 certainly doesn't look right... is that intentional?
+  Also Lesson 5
 
 - Cruft-removal: delete any stray commented-out code
 
