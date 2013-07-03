@@ -9,17 +9,17 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 
-bool fullscreen = false;          // Fullscreen flag set to fullscreen mode by default
-bool vsync = true;            // Turn VSYNC on/off
+bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
+bool vsync      = true;                 // Turn VSYNC on/off
 
 GLfloat rtri;                           // Angle for the triangle ( NEW )
 GLfloat rquad;                          // Angle for the quad ( NEW )
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)             // Resize and initialize the GL window
 {
-	if (height==0)                                          // Prevent a divide by zero by
+	if (height == 0)                                        // Prevent a divide by zero by
 	{
-		height=1;                                       // Making height equal one
+		height = 1;                                     // Making height equal one
 	}
 
 	glViewport(0,0,width,height);                           // Reset the current viewport
@@ -50,6 +50,7 @@ void drawGLScene()                                                      // Here'
 	glLoadIdentity();                                               // Reset the current modelview matrix
 	glTranslatef(-1.5f,0.0f,-6.0f);                                 // Move left 1.5 units and into the screen 6.0
 	glRotatef(rtri,0.0f,1.0f,0.0f);                                 // Rotate the triangle on the Y axis ( NEW )
+
 	glBegin(GL_TRIANGLES);                                          // Start drawing a triangle
 	glColor3f(1.0f,0.0f,0.0f);                                      // Set top point of triangle to red
 	glVertex3f( 0.0f, 1.0f, 0.0f);                                  // First point of the triangle
@@ -58,18 +59,23 @@ void drawGLScene()                                                      // Here'
 	glColor3f(0.0f,0.0f,1.0f);                                      // Set right point of triangle to blue
 	glVertex3f( 1.0f,-1.0f, 0.0f);                                  // Third point of the triangle
 	glEnd();                                                        // Done drawing the triangle
+
 	glLoadIdentity();                                               // Reset the current modelview matrix
 	glTranslatef(1.5f,0.0f,-6.0f);                                  // Move right 1.5 units and into the screen 6.0
 	glRotatef(rquad,1.0f,0.0f,0.0f);                                // Rotate the quad on the X axis ( NEW )
 	glColor3f(0.5f,0.5f,1.0f);                                      // Set the color to blue one time only
+
 	glBegin(GL_QUADS);                                              // Draw a quad
 	glVertex3f(-1.0f, 1.0f, 0.0f);                                  // Top left
 	glVertex3f( 1.0f, 1.0f, 0.0f);                                  // Top right
 	glVertex3f( 1.0f,-1.0f, 0.0f);                                  // Bottom right
 	glVertex3f(-1.0f,-1.0f, 0.0f);                                  // Bottom left
 	glEnd();                                                        // Done drawing the quad
-	rtri+=0.2f;                                                     // Increase the rotation variable for the triangle ( NEW )
-	rquad-=0.15f;                                                   // Decrease the rotation variable for the quad ( NEW )
+        // In production code, we'd use this equivalent code instead:
+        // glRectf(-1.0,-1.0,1.0,1.0);
+
+	rtri  += 0.2f;                                                  // Increase the rotation variable for the triangle ( NEW )
+	rquad -= 0.15f;                                                 // Decrease the rotation variable for the quad ( NEW )
 }
 
 int main()
