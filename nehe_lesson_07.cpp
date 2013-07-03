@@ -10,7 +10,7 @@
 #include <SFML/OpenGL.hpp>
 
 bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
-bool vsync = true;                      // Turn VSYNC on/off
+bool vsync      = true;                 // Turn VSYNC on/off
 bool light;                             // Lighting ON/OFF ( NEW )
 
 GLfloat xrot;                           // x rotation
@@ -146,8 +146,8 @@ void drawGLScene()                                                              
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);
 	glEnd();
 
-	xrot+=xspeed;
-	yrot+=yspeed;
+	xrot += xspeed;
+	yrot += yspeed;
 }
 
 int main()

@@ -10,7 +10,7 @@
 #include <SFML/OpenGL.hpp>
 
 bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
-bool vsync = true;                      // Turn VSYNC on/off
+bool vsync      = true;                 // Turn VSYNC on/off
 
 bool twinkle;                           // Twinkling stars
 
@@ -29,7 +29,6 @@ GLfloat zoom = -15.0f;                  // Distance away from stars
 GLfloat tilt = 90.0f;                   // Tilt the view
 GLfloat spin;                           // Spin stars
 
-GLuint loop;                            // General loop variable
 GLuint texture[1];                      // Storage for one textures
 
 void loadGLTextures()                   // Load bitmaps and convert to textures
@@ -83,13 +82,13 @@ void initGL()                                                                   
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE);                                       // Set the blending function for translucency
 	glEnable(GL_BLEND);
 
-	for (loop=0; loop<num; loop++)
+	for (unsigned int loop = 0; loop < num; ++loop)
 	{
-		star[loop].angle=0.0f;
-		star[loop].dist=(float(loop)/num)*5.0f;
-		star[loop].r=rand()%256;
-		star[loop].g=rand()%256;
-		star[loop].b=rand()%256;
+		star[loop].angle = 0.0f;
+		star[loop].dist = (float(loop)/num)*5.0f;
+		star[loop].r = rand()%256;
+		star[loop].g = rand()%256;
+		star[loop].b = rand()%256;
 	}
 }
 
@@ -98,19 +97,23 @@ void drawGLScene()                                                              
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                     // Clear the screen and the depth buffer
 	glBindTexture(GL_TEXTURE_2D, texture[0]);                               // Select our texture
 
-	for (loop=0; loop<num; loop++)                                          // Loop through all the stars
+	for (unsigned int loop = 0; loop < num; ++loop)                         // Loop through all the stars
 	{
 		glLoadIdentity();                                               // Reset the view before we draw each star
 		glTranslatef(0.0f,0.0f,zoom);                                   // Zoom into the screen (using the value in 'zoom')
+
 		glRotatef(tilt,1.0f,0.0f,0.0f);                                 // Tilt the view (using the value in 'tilt')
 		glRotatef(star[loop].angle,0.0f,1.0f,0.0f);                     // Rotate to the current stars angle
+
 		glTranslatef(star[loop].dist,0.0f,0.0f);                        // Move forward on the x plane
+
 		glRotatef(-star[loop].angle,0.0f,1.0f,0.0f);                    // Cancel the current stars angle
 		glRotatef(-tilt,1.0f,0.0f,0.0f);                                // Cancel the screen tilt
 
 		if (twinkle)
 		{
 			glColor4ub(star[(num-loop)-1].r,star[(num-loop)-1].g,star[(num-loop)-1].b,255);
+
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f, 0.0f);
 			glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,-1.0f, 0.0f);
@@ -121,6 +124,7 @@ void drawGLScene()                                                              
 
 		glRotatef(spin,0.0f,0.0f,1.0f);
 		glColor4ub(star[loop].r,star[loop].g,star[loop].b,255);
+
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f, 0.0f);
 		glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,-1.0f, 0.0f);
@@ -128,15 +132,16 @@ void drawGLScene()                                                              
 		glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, 1.0f, 0.0f);
 		glEnd();
 
-		spin+=0.01f;
-		star[loop].angle+=float(loop)/num;
-		star[loop].dist-=0.01f;
-		if (star[loop].dist<0.0f)
+		spin += 0.01f;
+		star[loop].angle += float(loop)/num;
+		star[loop].dist  -= 0.01f;
+
+		if (star[loop].dist < 0.0f)
 		{
-			star[loop].dist+=5.0f;
-			star[loop].r=rand()%256;
-			star[loop].g=rand()%256;
-			star[loop].b=rand()%256;
+			star[loop].dist += 5.0f;
+			star[loop].r=rand() % 256;
+			star[loop].g=rand() % 256;
+			star[loop].b=rand() % 256;
 		}
 	}
 }
