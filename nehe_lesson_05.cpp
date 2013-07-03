@@ -9,8 +9,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 
-bool fullscreen = false;          // Fullscreen flag set to fullscreen mode by default
-bool vsync = true;            // Turn VSYNC on/off
+bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
+bool vsync      = true;                 // Turn VSYNC on/off
 
 GLfloat rtri;                           // Angle for the triangle ( NEW )
 GLfloat rquad;                          // Angle for the quad ( NEW )
@@ -50,6 +50,7 @@ void drawGLScene()                                                              
 	glLoadIdentity();                                                       // Reset the current modelview matrix
 	glTranslatef(-1.5f,0.0f,-6.0f);                                         // Move left 1.5 units and into the screen 6.0
 	glRotatef(rtri,0.0f,1.0f,0.0f);                                         // Rotate the triangle on the Y axis ( NEW )
+
 	glBegin(GL_TRIANGLES);                                                  // Start drawing a triangle
 	glColor3f(1.0f,0.0f,0.0f);                                              // Red
 	glVertex3f( 0.0f, 1.0f, 0.0f);                                          // Top of triangle (front)
@@ -80,6 +81,7 @@ void drawGLScene()                                                              
 	glLoadIdentity();                                                       // Reset the current modelview matrix
 	glTranslatef(1.5f,0.0f,-7.0f);                                          // Move right 1.5 units and into the screen 7.0
 	glRotatef(rquad,1.0f,1.0f,1.0f);                                        // Rotate the quad on the x axis ( new )
+
 	glBegin(GL_QUADS);                                                      // Draw a quad
 	glColor3f(0.0f,1.0f,0.0f);                                              // Set the color to green
 	glVertex3f( 1.0f, 1.0f,-1.0f);                                          // Top right of the quad (top)
