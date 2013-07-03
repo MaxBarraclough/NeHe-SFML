@@ -1,5 +1,9 @@
 - Update credits at top of lessons
 
+- Indentation of lines between glBegin(); and glEnd();
+
+- should we be using floats, in the form of 1.0f, rather than doubles, if they eventually end up as GLfloat or GLdouble ?
+
 - Port the rest of the lessons. (Currently we have only the first 12.)
 
 - Fix repetitive vsync configuration adjustment, see http://en.sfml-dev.org/forums/index.php?topic=4481.msg29255#msg29255

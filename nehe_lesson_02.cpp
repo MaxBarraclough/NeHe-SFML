@@ -9,8 +9,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 
-bool fullscreen=false;          // Fullscreen flag set to fullscreen mode by default
-bool vsync=true;            // Turn VSYNC on/off
+bool fullscreen = false;          // Fullscreen flag set to fullscreen mode by default
+bool vsync      = true;           // Turn VSYNC on/off
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                             // Resize and initialize the GL window
 {
@@ -24,7 +24,7 @@ GLvoid resizeGLScene(GLsizei width, GLsizei height)                             
 	glMatrixMode(GL_PROJECTION);                                            // Select the projection matrix
 	glLoadIdentity();                                                       // Reset the projection matrix
 
-	// Calculate The Aspect Ratio Of The Window
+	// Calculate the aspect ratio of the window
 	gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
 
 	glMatrixMode(GL_MODELVIEW);                                             // Select the modelview matrix
@@ -46,18 +46,23 @@ void drawGLScene()                                                              
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                     // Clear screen and depth buffer
 	glLoadIdentity();                                                       // Reset the current modelview matrix
 	glTranslatef(-1.5f,0.0f,-6.0f);                                         // Move left 1.5 units and into the screen 6.0
+
 	glBegin(GL_TRIANGLES);                                                  // Drawing using triangles
 	glVertex3f( 0.0f, 1.0f, 0.0f);                                          // Top
 	glVertex3f(-1.0f,-1.0f, 0.0f);                                          // Bottom Left
 	glVertex3f( 1.0f,-1.0f, 0.0f);                                          // Bottom Right
 	glEnd();                                                                // Finished drawing the triangle
+
 	glTranslatef(3.0f,0.0f,0.0f);                                           // Move right 3 units
+
 	glBegin(GL_QUADS);                                                      // Draw a quad
 	glVertex3f(-1.0f, 1.0f, 0.0f);                                          // Top left
 	glVertex3f( 1.0f, 1.0f, 0.0f);                                          // Top right
 	glVertex3f( 1.0f,-1.0f, 0.0f);                                          // Bottom right
 	glVertex3f(-1.0f,-1.0f, 0.0f);                                          // Bottom left
 	glEnd();                                                                // Done drawing the quad
+	// In production code, we'd use this equivalent code instead:
+	// glRectf(-1.0,-1.0,1.0,1.0);
 }
 
 int main()
