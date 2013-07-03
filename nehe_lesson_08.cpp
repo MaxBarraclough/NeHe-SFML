@@ -157,7 +157,11 @@ void drawGLScene()                                                              
 int main()
 {
 	// Create the main window
-	sf::Window myWindow(sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL");
+
+	sf::ContextSettings settings;  // We need this to enable OpenGL to use a Z-buffer.
+	settings.depthBits = 24;       // By default, one is *not* allocated.
+
+	sf::Window myWindow(sf::VideoMode(800, 600, 32), "SFML/NeHe OpenGL", sf::Style::Default, settings);
 
 	initGL();
 	resizeGLScene(800, 600);
