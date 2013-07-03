@@ -10,7 +10,7 @@
 #include <SFML/OpenGL.hpp>
 
 bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
-bool vsync = true;                      // Turn VSYNC on/off
+bool vsync      = true;                 // Turn VSYNC on/off
 
 GLuint texture[1];                      // Storage for 1 texture
 GLuint box;                             // Storage for the box display list
@@ -21,7 +21,7 @@ GLuint yloop;                           // Loop for y axis
 GLfloat xrot;                           // Rotates cube on the x axis
 GLfloat yrot;                           // Rotates cube on the y axis
 
-static GLfloat boxcol[5][3]=
+static GLfloat boxcol[5][3] =
 {
 	{1.0f,0.0f,0.0f},{1.0f,0.5f,0.0f},{1.0f,1.0f,0.0f},{0.0f,1.0f,0.0f},{0.0f,1.0f,1.0f}
 };
@@ -36,6 +36,7 @@ GLvoid BuildLists()
 {
 	box=glGenLists(2);                                                              // Generate 2 different lists
 	glNewList(box,GL_COMPILE);                                                      // Start with the box list
+
 	glBegin(GL_QUADS);
 	// Bottom face
 	glNormal3f( 0.0f,-1.0f, 0.0f);
@@ -69,8 +70,10 @@ GLvoid BuildLists()
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);
 	glEnd();
 	glEndList();
-	top=box+1;                                                                      // Storage for "top" is "box" plus one
+
+	top = box+1;                                                                    // Storage for "top" is "box" plus one
 	glNewList(top,GL_COMPILE);                                                      // Now the "top" display list
+
 	glBegin(GL_QUADS);
 	// Top face
 	glNormal3f( 0.0f, 1.0f, 0.0f);
