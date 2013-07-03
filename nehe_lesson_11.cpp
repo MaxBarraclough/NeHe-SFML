@@ -11,19 +11,19 @@
 #include <cmath>                        // for sin function
 
 bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
-bool vsync = true;                      // Turn VSYNC on/off
+bool vsync      = true;                 // Turn VSYNC on/off
 
 float points[45][45][3];                // The array for the points on the grid of our "wave"
 int wiggle_count = 0;                   // Counter used to control how fast flag waves
 
-GLfloat xrot;                           // X Rotation ( NEW )
-GLfloat yrot;                           // Y Rotation ( NEW )
-GLfloat zrot;                           // Z Rotation ( NEW )
+GLfloat xRot;                           // X Rotation ( NEW )
+GLfloat yRot;                           // Y Rotation ( NEW )
+GLfloat zRot;                           // Z Rotation ( NEW )
 GLfloat hold;                           // Temporarily holds a floating point value
 
 GLuint texture[1];                      // Storage for one texture ( NEW )
 
-void loadGLTextures()                  // Load bitmaps and convert to textures
+void loadGLTextures()                   // Load bitmaps and convert to textures
 {
 	// Load the bitmap. If file is not found, then quit.
 	sf::Image image;
@@ -78,9 +78,9 @@ void initGL()                                                                   
 	glPolygonMode( GL_BACK, GL_FILL );                                      // Back face is solid
 	glPolygonMode( GL_FRONT, GL_LINE );                                     // Front face is made of lines
 
-	for(int x=0; x<45; x++)
+	for(int x=0; x<45; ++x)
 	{
-		for(int y=0; y<45; y++)
+		for(int y=0; y<45; ++y)
 		{
 			points[x][y][0]=float((x/5.0f)-4.5f);
 			points[x][y][1]=float((y/5.0f)-4.5f);
@@ -91,7 +91,6 @@ void initGL()                                                                   
 
 void drawGLScene()                                                              // Here's where we do all the drawing
 {
-	int x, y;
 	float float_x, float_y, float_xb, float_yb;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                     // Clear the screen and the depth buffer
@@ -99,21 +98,21 @@ void drawGLScene()                                                              
 
 	glTranslatef(0.0f,0.0f,-12.0f);
 
-	glRotatef(xrot,1.0f,0.0f,0.0f);
-	glRotatef(yrot,0.0f,1.0f,0.0f);
-	glRotatef(zrot,0.0f,0.0f,1.0f);
+	glRotatef(xRot,1.0f,0.0f,0.0f);
+	glRotatef(yRot,0.0f,1.0f,0.0f);
+	glRotatef(zRot,0.0f,0.0f,1.0f);
 
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
 
 	glBegin(GL_QUADS);
-	for( x = 0; x < 44; x++ )
+	for( int x = 0; x < 44; ++x )
 	{
-		for( y = 0; y < 44; y++ )
+		for( int y = 0; y < 44; ++y )
 		{
-			float_x = float(x)/44.0f;
-			float_y = float(y)/44.0f;
-			float_xb = float(x+1)/44.0f;
-			float_yb = float(y+1)/44.0f;
+			float_x = float(x)    / 44.0f;
+			float_y = float(y)    / 44.0f;
+			float_xb = float(x+1) / 44.0f;
+			float_yb = float(y+1) / 44.0f;
 
 			glTexCoord2f( float_x, float_y);
 			glVertex3f( points[x][y][0], points[x][y][1], points[x][y][2] );
@@ -132,10 +131,10 @@ void drawGLScene()                                                              
 
 	if( wiggle_count == 2 )
 	{
-		for( y = 0; y < 45; y++ )
+		for( int y = 0; y < 45; ++y )
 		{
 			hold=points[0][y][2];
-			for( x = 0; x < 44; x++)
+			for( int x = 0; x < 44; ++x)
 			{
 				points[x][y][2] = points[x+1][y][2];
 			}
@@ -146,9 +145,9 @@ void drawGLScene()                                                              
 
 	++wiggle_count;
 
-	xrot+=0.3f;
-	yrot+=0.2f;
-	zrot+=0.4f;
+	xRot += 0.3f;
+	yRot += 0.2f;
+	zRot += 0.4f;
 }
 
 int main()
