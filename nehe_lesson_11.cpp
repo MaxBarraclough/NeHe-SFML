@@ -10,6 +10,8 @@
 #include <SFML/OpenGL.hpp>
 #include <cmath>                        // for sin function
 
+static const float PI_F = 3.14159265358979323846264338327950288419716939937510582097494f;
+
 bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
 bool vsync      = true;                 // Turn VSYNC on/off
 
@@ -49,7 +51,7 @@ GLvoid resizeGLScene(GLsizei width, GLsizei height)                             
 {
         if (height==0)                                                          // Prevent a divide by zero by
         {
-                height=1;                                                       // Making height equal one
+                height = 1;                                                     // Making height equal one
         }
 
         glViewport(0,0,width,height);                                           // Reset the current viewport
@@ -78,13 +80,13 @@ void initGL()                                                                   
         glPolygonMode( GL_BACK, GL_FILL );                                      // Back face is solid
         glPolygonMode( GL_FRONT, GL_LINE );                                     // Front face is made of lines
 
-        for(int x=0; x < 45; ++x)
+        for(int x = 0; x < 45; ++x)
         {
-                for(int y=0; y < 45; ++y)
+                for(int y = 0; y < 45; ++y)
                 {
                         points[x][y][0] = float((x/5.0f) - 4.5f);
                         points[x][y][1] = float((y/5.0f) - 4.5f);
-                        points[x][y][2] = float(  sin( ( ((x/5.0f)*40.0f)/360.0f ) *3.141592654*2.0f )  );
+                        points[x][y][2] = float(  sin( ( ((x/5.0f)*40.0f) / 360.0f ) * PI_F * 2.0f )  );
                 }
         }
 }

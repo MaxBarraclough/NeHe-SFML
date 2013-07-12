@@ -160,7 +160,7 @@ void drawGLScene()                                                              
                 for (xloop = 0; xloop < yloop; ++xloop)
                 {
                         glLoadIdentity();                                               // Reset the view
-                        glTranslatef(        1.4f + (float(xloop)  * 2.8f) - (float(yloop) * 1.4f),
+                        glTranslatef(   1.4f + (float(xloop)  * 2.8f) - (float(yloop) * 1.4f),
                                       ((6.0f -  float(yloop)) * 2.4f) - 7.0f,
                                         -20.0f);
 
