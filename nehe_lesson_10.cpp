@@ -183,27 +183,27 @@ void drawGLScene()                                                              
         for (int loop_m = 0; loop_m < numTriangles; ++loop_m)
         {
                 glBegin(GL_TRIANGLES);
-                glNormal3f( 0.0f, 0.0f, 1.0f);
-                x_m = sector1.triangle[loop_m].vertex[0].x;
-                y_m = sector1.triangle[loop_m].vertex[0].y;
-                z_m = sector1.triangle[loop_m].vertex[0].z;
-                u_m = sector1.triangle[loop_m].vertex[0].u;
-                v_m = sector1.triangle[loop_m].vertex[0].v;
-                glTexCoord2f(u_m,v_m); glVertex3f(x_m,y_m,z_m);
+                  glNormal3f( 0.0f, 0.0f, 1.0f);
+                  x_m = sector1.triangle[loop_m].vertex[0].x;
+                  y_m = sector1.triangle[loop_m].vertex[0].y;
+                  z_m = sector1.triangle[loop_m].vertex[0].z;
+                  u_m = sector1.triangle[loop_m].vertex[0].u;
+                  v_m = sector1.triangle[loop_m].vertex[0].v;
+                  glTexCoord2f(u_m,v_m); glVertex3f(x_m,y_m,z_m);
 
-                x_m = sector1.triangle[loop_m].vertex[1].x;
-                y_m = sector1.triangle[loop_m].vertex[1].y;
-                z_m = sector1.triangle[loop_m].vertex[1].z;
-                u_m = sector1.triangle[loop_m].vertex[1].u;
-                v_m = sector1.triangle[loop_m].vertex[1].v;
-                glTexCoord2f(u_m,v_m); glVertex3f(x_m,y_m,z_m);
+                  x_m = sector1.triangle[loop_m].vertex[1].x;
+                  y_m = sector1.triangle[loop_m].vertex[1].y;
+                  z_m = sector1.triangle[loop_m].vertex[1].z;
+                  u_m = sector1.triangle[loop_m].vertex[1].u;
+                  v_m = sector1.triangle[loop_m].vertex[1].v;
+                  glTexCoord2f(u_m,v_m); glVertex3f(x_m,y_m,z_m);
 
-                x_m = sector1.triangle[loop_m].vertex[2].x;
-                y_m = sector1.triangle[loop_m].vertex[2].y;
-                z_m = sector1.triangle[loop_m].vertex[2].z;
-                u_m = sector1.triangle[loop_m].vertex[2].u;
-                v_m = sector1.triangle[loop_m].vertex[2].v;
-                glTexCoord2f(u_m,v_m); glVertex3f(x_m,y_m,z_m);
+                  x_m = sector1.triangle[loop_m].vertex[2].x;
+                  y_m = sector1.triangle[loop_m].vertex[2].y;
+                  z_m = sector1.triangle[loop_m].vertex[2].z;
+                  u_m = sector1.triangle[loop_m].vertex[2].u;
+                  v_m = sector1.triangle[loop_m].vertex[2].v;
+                  glTexCoord2f(u_m,v_m); glVertex3f(x_m,y_m,z_m);
                 glEnd();
         }
 }

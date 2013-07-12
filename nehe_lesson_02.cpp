@@ -48,18 +48,18 @@ void drawGLScene()                                                              
         glTranslatef(-1.5f,0.0f,-6.0f);                                         // Move left 1.5 units and into the screen 6.0
 
         glBegin(GL_TRIANGLES);                                                  // Drawing using triangles
-        glVertex3f( 0.0f, 1.0f, 0.0f);                                          // Top
-        glVertex3f(-1.0f,-1.0f, 0.0f);                                          // Bottom Left
-        glVertex3f( 1.0f,-1.0f, 0.0f);                                          // Bottom Right
+          glVertex3f( 0.0f, 1.0f, 0.0f);                                        // Top
+          glVertex3f(-1.0f,-1.0f, 0.0f);                                        // Bottom Left
+          glVertex3f( 1.0f,-1.0f, 0.0f);                                        // Bottom Right
         glEnd();                                                                // Finished drawing the triangle
 
         glTranslatef(3.0f,0.0f,0.0f);                                           // Move right 3 units
 
         glBegin(GL_QUADS);                                                      // Draw a quad
-        glVertex3f(-1.0f, 1.0f, 0.0f);                                          // Top left
-        glVertex3f( 1.0f, 1.0f, 0.0f);                                          // Top right
-        glVertex3f( 1.0f,-1.0f, 0.0f);                                          // Bottom right
-        glVertex3f(-1.0f,-1.0f, 0.0f);                                          // Bottom left
+          glVertex3f(-1.0f, 1.0f, 0.0f);                                        // Top left
+          glVertex3f( 1.0f, 1.0f, 0.0f);                                        // Top right
+          glVertex3f( 1.0f,-1.0f, 0.0f);                                        // Bottom right
+          glVertex3f(-1.0f,-1.0f, 0.0f);                                        // Bottom left
         glEnd();                                                                // Done drawing the quad
         // In production code, we'd use this equivalent code instead:
         // glRectf(-1.0,-1.0,1.0,1.0);

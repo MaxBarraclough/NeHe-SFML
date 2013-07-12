@@ -48,22 +48,22 @@ void drawGLScene()                                                      // Here'
         glTranslatef(-1.5f,0.0f,-6.0f);                                 // Move left 1.5 units and into the screen 6.0
 
         glBegin(GL_TRIANGLES);                                          // Drawing using triangles
-        glColor3f(1.0f,0.0f,0.0f);                                      // Set the color to red
-        glVertex3f( 0.0f, 1.0f, 0.0f);                                  // Top
-        glColor3f(0.0f,1.0f,0.0f);                                      // Set the color to green
-        glVertex3f(-1.0f,-1.0f, 0.0f);                                  // Bottom left
-        glColor3f(0.0f,0.0f,1.0f);                                      // Set the color to blue
-        glVertex3f( 1.0f,-1.0f, 0.0f);                                  // Bottom right
+          glColor3f(1.0f,0.0f,0.0f);                                    // Set the color to red
+          glVertex3f( 0.0f, 1.0f, 0.0f);                                // Top
+          glColor3f(0.0f,1.0f,0.0f);                                    // Set the color to green
+          glVertex3f(-1.0f,-1.0f, 0.0f);                                // Bottom left
+          glColor3f(0.0f,0.0f,1.0f);                                    // Set the color to blue
+          glVertex3f( 1.0f,-1.0f, 0.0f);                                // Bottom right
         glEnd();                                                        // Finished drawing the triangle
 
         glTranslatef(3.0f,0.0f,0.0f);                                   // Move right 3 units
         glColor3f(0.5f,0.5f,1.0f);                                      // Set the color to blue one time only
 
         glBegin(GL_QUADS);                                              // Draw a quad
-        glVertex3f(-1.0f, 1.0f, 0.0f);                                  // Top left
-        glVertex3f( 1.0f, 1.0f, 0.0f);                                  // Top right
-        glVertex3f( 1.0f,-1.0f, 0.0f);                                  // Bottom right
-        glVertex3f(-1.0f,-1.0f, 0.0f);                                  // Bottom left
+          glVertex3f(-1.0f, 1.0f, 0.0f);                                // Top left
+          glVertex3f( 1.0f, 1.0f, 0.0f);                                // Top right
+          glVertex3f( 1.0f,-1.0f, 0.0f);                                // Bottom right
+          glVertex3f(-1.0f,-1.0f, 0.0f);                                // Bottom left
         glEnd();                                                        // Done drawing the quad
         // In production code, we'd use this equivalent code instead:
         // glRectf(-1.0,-1.0,1.0,1.0);
