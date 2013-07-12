@@ -1,11 +1,9 @@
-==========================================================================
                                   Building
 ==========================================================================
 
-For help building, see building.txt
+For help building, see building.md
 
 
-==========================================================================
                           Original OpenGL Lessons
 ==========================================================================
 
@@ -18,10 +16,9 @@ hardware.  The program and code contained in this archive was scanned
 for virii and has passed all test before it was put online.  If you
 use this code in project of your own, send a shout out to the author!
 
-(http://nehe.gamedev.net/)
+http://nehe.gamedev.net/
 
 
-==========================================================================
                                  Credits
 ==========================================================================
 
