@@ -187,7 +187,9 @@ int main()
                                                         fullscreen = !fullscreen;
                                                         myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32),
                                                                         "SFML/NeHe OpenGL",
-                                                                        (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
+                                                                        (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close),
+                                                                        settings);
+                                                        initGL();
                                                         {
                                                                 sf::Vector2u size = myWindow.getSize();
                                                                 resizeGLScene(size.x,size.y);

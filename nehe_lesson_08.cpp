@@ -12,7 +12,7 @@
 bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
 bool vsync      = true;                 // Turn VSYNC on/off
 bool light;                             // Lighting ON/OFF
-bool blend;                             // Blending OFF/ON? ( NEW )
+bool blend      = false;                // Blending OFF/ON? ( NEW )
 
 GLfloat xrot;                           // x rotation
 GLfloat yrot;                           // y rotation
@@ -95,9 +95,16 @@ void initGL()                                                                   
         glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);                        // Position the light
         glEnable(GL_LIGHT1);                                                    // Enable light one
 
-
         glColor4f(1.0f, 1.0f, 1.0f, 0.5);                                       // Full brightness.  50% alpha
         glBlendFunc(GL_SRC_ALPHA,GL_ONE);                                       // Set the blending function for translucency
+
+        if(blend) {
+                glEnable(GL_BLEND);                                             // Turn blending on
+                glDisable(GL_DEPTH_TEST);                                       // Turn depth testing off
+        } else {
+                glDisable(GL_BLEND);                                            // Turn blending off
+                glEnable(GL_DEPTH_TEST);                                        // Turn depth testing on
+        }
 }
 
 void drawGLScene()                                                              // Here's where we do all the drawing
@@ -202,7 +209,9 @@ int main()
                                                         fullscreen = !fullscreen;
                                                         myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32),
                                                                         "SFML/NeHe OpenGL",
-                                                                        (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
+                                                                        (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close),
+                                                                        settings);
+                                                        initGL();
                                                         {
                                                                 sf::Vector2u size = myWindow.getSize();
                                                                 resizeGLScene(size.x,size.y);

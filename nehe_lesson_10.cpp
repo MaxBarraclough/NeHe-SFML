@@ -14,7 +14,7 @@
 bool fullscreen = false;                // Fullscreen flag set to fullscreen mode by default
 bool vsync      = true;                 // Turn VSYNC on/off
 
-bool blend;                             // Blending ON/OFF
+bool blend      = false;                // Blending ON/OFF
 
 const float piover180 = 0.0174532925f;
 float heading;
@@ -157,6 +157,13 @@ void initGL()                                                                   
         glShadeModel(GL_SMOOTH);                                                // Enables smooth color shading
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);                      // Really nice perspective calculations
 
+        if(blend) {
+                glEnable(GL_BLEND);       // Turn blending on
+                glDisable(GL_DEPTH_TEST); // Turn depth testing off
+        } else {
+                glDisable(GL_BLEND);      // Turn blending off
+                glEnable(GL_DEPTH_TEST);  // Turn depth testing on
+        }
         setupWorld();
 }
 
@@ -251,7 +258,9 @@ int main()
                                                         fullscreen = !fullscreen;
                                                         myWindow.create(fullscreen ? sf::VideoMode::getDesktopMode() : sf::VideoMode(800, 600, 32),
                                                                         "SFML/NeHe OpenGL",
-                                                                        (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close));
+                                                                        (fullscreen ? sf::Style::Fullscreen : sf::Style::Resize | sf::Style::Close),
+                                                                        settings);
+                                                        initGL();
                                                         {
                                                                 sf::Vector2u size = myWindow.getSize();
                                                                 resizeGLScene(size.x,size.y);

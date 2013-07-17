@@ -1,4 +1,4 @@
--  Z-buffer trouble in Lesson 5
+-  Z-buffer trouble in Lesson 5 (cannot reproduce... what was going on here?)
 
 -  Fix bug(s) listed at https://github.com/MaxBarraclough/NeHe-SFML2/issues
 
