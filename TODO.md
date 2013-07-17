@@ -1,6 +1,10 @@
+-  Z-buffer trouble in Lesson 5
+
+-  Fix bug(s) listed at https://github.com/MaxBarraclough/NeHe-SFML2/issues
+
 -  Update credits at top of lessons
 
--  Indentation of lines between glBegin(); and glEnd();
+-  On Windows release builds, we should be building as a GUI application (to suppress showing the terminal)
 
 -  Add links to NeHe's web-pages explaining the lessons' content,
   e.g. lesson 5 -> http://nehe.gamedev.net/tutorial/3d_shapes/10035/

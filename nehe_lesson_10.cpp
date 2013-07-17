@@ -183,6 +183,7 @@ void drawGLScene()                                                              
         for (int loop_m = 0; loop_m < numTriangles; ++loop_m)
         {
                 glBegin(GL_TRIANGLES);
+
                   glNormal3f( 0.0f, 0.0f, 1.0f);
                   x_m = sector1.triangle[loop_m].vertex[0].x;
                   y_m = sector1.triangle[loop_m].vertex[0].y;
@@ -204,6 +205,7 @@ void drawGLScene()                                                              
                   u_m = sector1.triangle[loop_m].vertex[2].u;
                   v_m = sector1.triangle[loop_m].vertex[2].v;
                   glTexCoord2f(u_m,v_m); glVertex3f(x_m,y_m,z_m);
+
                 glEnd();
         }
 }
