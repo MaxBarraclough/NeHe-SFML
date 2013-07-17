@@ -33,6 +33,7 @@ set(EXECUTABLE_NAME_9  "nehe_lesson_09")
 set(EXECUTABLE_NAME_10 "nehe_lesson_10")
 set(EXECUTABLE_NAME_11 "nehe_lesson_11")
 set(EXECUTABLE_NAME_12 "nehe_lesson_12")
+set(EXECUTABLE_NAME_45 "nehe_lesson_45")
 
 add_executable(${EXECUTABLE_NAME_1}  nehe_lesson_01.cpp)
 add_executable(${EXECUTABLE_NAME_2}  nehe_lesson_02.cpp)
@@ -46,6 +47,7 @@ add_executable(${EXECUTABLE_NAME_9}  nehe_lesson_09.cpp)
 add_executable(${EXECUTABLE_NAME_10} nehe_lesson_10.cpp)
 add_executable(${EXECUTABLE_NAME_11} nehe_lesson_11.cpp)
 add_executable(${EXECUTABLE_NAME_12} nehe_lesson_12.cpp)
+add_executable(${EXECUTABLE_NAME_45} nehe_lesson_45.cpp)
 
 
 ## Detect and add SFML
@@ -67,6 +69,7 @@ if(SFML_FOUND)
   target_link_libraries(${EXECUTABLE_NAME_10} ${SFML_LIBRARIES})
   target_link_libraries(${EXECUTABLE_NAME_11} ${SFML_LIBRARIES})
   target_link_libraries(${EXECUTABLE_NAME_12} ${SFML_LIBRARIES})
+  target_link_libraries(${EXECUTABLE_NAME_45} ${SFML_LIBRARIES})
 endif()
 
 
@@ -83,6 +86,7 @@ install(TARGETS ${EXECUTABLE_NAME_9}  DESTINATION bin)
 install(TARGETS ${EXECUTABLE_NAME_10} DESTINATION bin)
 install(TARGETS ${EXECUTABLE_NAME_11} DESTINATION bin)
 install(TARGETS ${EXECUTABLE_NAME_12} DESTINATION bin)
+install(TARGETS ${EXECUTABLE_NAME_45} DESTINATION bin)
 
 
 ## CPack packaging
@@ -107,19 +111,11 @@ if (OPENGL_FOUND)
   target_link_libraries(${EXECUTABLE_NAME_10} ${OPENGL_LIBRARIES})
   target_link_libraries(${EXECUTABLE_NAME_11} ${OPENGL_LIBRARIES})
   target_link_libraries(${EXECUTABLE_NAME_12} ${OPENGL_LIBRARIES})
+  target_link_libraries(${EXECUTABLE_NAME_45} ${OPENGL_LIBRARIES})
+
   ## or: target_link_libraries(${EXECUTABLE_NAME_1} ${OPENGL_gl_LIBRARY})
 #  target_link_libraries(${EXECUTABLE_NAME_1}  m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_2}  m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_3}  m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_4}  m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_5}  m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_6}  m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_7}  m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_8}  m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_9}  m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_10} m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_11} m)  # if you use maths.h
-#  target_link_libraries(${EXECUTABLE_NAME_12} m)  # if you use maths.h
+#  .....
 endif()
 
 
