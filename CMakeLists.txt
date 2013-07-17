@@ -9,7 +9,7 @@ project(myproject)
 if(CMAKE_BUILD_TYPE STREQUAL "")
   set(CMAKE_BUILD_TYPE Debug)
 endif()
-## (you can also set it on the command line: -D CMAKE_BUILD_TYPE=Release)
+## (you can also set it on the command line: -DCMAKE_BUILD_TYPE=Release)
 
 ## Set version information in a config.h file
 set(myproject_VERSION_MAJOR 1)

@@ -36,26 +36,24 @@ class Mesh
 {
 public:
   // Mesh data
-  int m_nVertexCount;                                                             // Vertex count
-  Vertex*                 m_pVertices;                                            // Vertex data
-  TexCoord*               m_pTexCoords;                                           // Texture coordinates
+  int          m_nVertexCount;                                                    // Vertex count
+  Vertex*      m_pVertices;                                                       // Vertex data
+  TexCoord*    m_pTexCoords;                                                      // Texture coordinates
   unsigned int m_nTextureId;                                                      // Texture ID
 
   // Vertex Buffer Object names
   unsigned int m_nVBOVertices;                                                    // Vertex VBO name
   unsigned int m_nVBOTexCoords;                                                   // Texture coordinate VBO name
 
-  // Temporary data
   sf::Image image;         // Heightmap data
 
   Mesh();                                                                         // Mesh constructor
   ~Mesh();                                                                        // Mesh deconstructor
 
-  // Heightmap Loader
   void loadHeightmap( float flHeightScale, float flResolution );
-  // Single Point Height
-  float ptHeight( int nX, int nY );
-  // VBO Build Function
+
+  float pointHeight( int nX, int nY );
+
   void buildVBOs();
 };
 
@@ -68,7 +66,7 @@ unsigned int g_lastFPS = 0;                                                     
 
 void initGL()
 {
-        // Load The Mesh Data
+        // Load the mesh data
         g_meshPtr = new Mesh();                                                   // Instantiate our mesh
         g_meshPtr->loadHeightmap(MESH_HEIGHTSCALE, MESH_RESOLUTION);              // Load our heightmap
         // Load vertex data into graphics card memory
@@ -181,7 +179,7 @@ void Mesh :: loadHeightmap( float flHeightScale, float flResolution )
 
         if(!image.loadFromFile(TERRAIN_FILE_PATH) ) {
 
-                fputs("Error Loading Heightmap file: ", stderr);
+                fputs("Error loading heightmap file: ", stderr);
                 fputs(TERRAIN_FILE_PATH, stderr);
                 fputc('\n', stderr);
                 exit(7);
@@ -206,7 +204,7 @@ void Mesh :: loadHeightmap( float flHeightScale, float flResolution )
 
                                 // Set the data, using ptheight to obtain the y value
                                 m_pVertices[nIndex].x = flX - ( imageSize.x / 2 );
-                                m_pVertices[nIndex].y = ptHeight( (int) flX, (int) flZ ) *  flHeightScale;
+                                m_pVertices[nIndex].y = pointHeight( (int) flX, (int) flZ ) *  flHeightScale;
                                 m_pVertices[nIndex].z = flZ - ( imageSize.y / 2 );
 
                                 // Stretch the texture across the entire mesh
@@ -220,23 +218,23 @@ void Mesh :: loadHeightmap( float flHeightScale, float flResolution )
         }
 
         // Load the texture into OpenGL
-        glGenTextures( 1, &m_nTextureId );                              // Get an available ID number
-        glBindTexture( GL_TEXTURE_2D, m_nTextureId );                   // Bind the texture
-        glTexImage2D( GL_TEXTURE_2D, 0, 3, imageSize.x, imageSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, image.getPixelsPtr() );
+        glGenTextures  (1, &m_nTextureId);                              // Get an available ID number
+        glBindTexture  (GL_TEXTURE_2D, m_nTextureId);                   // Bind the texture
+        glTexImage2D   (GL_TEXTURE_2D, 0, 3, imageSize.x, imageSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, image.getPixelsPtr() );
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 }
 
-float Mesh :: ptHeight( int nX, int nY )
+float Mesh :: pointHeight( int nX, int nY )
 {
         sf::Vector2u imageSize = image.getSize();
 
-        // Calculate The Position In The Texture, Careful Not To Overflow
-        int nPos = ( ( nX % imageSize.x )  + ( ( nY % imageSize.y ) * imageSize.x ) ) * 3;
+        // Calculate the position in the texture, being careful not to overflow
+        int  nPos = ( ( nX % imageSize.x )  + ( ( nY % imageSize.y ) * imageSize.x ) ) * 3;
         float flR = (float) image.getPixelsPtr()[ nPos ];               // Get the red component
         float flG = (float) image.getPixelsPtr()[ nPos + 1 ];           // Get the green component
         float flB = (float) image.getPixelsPtr()[ nPos + 2 ];           // Get the blue component
-        return ( 0.299f * flR + 0.587f * flG + 0.114f * flB );          // Calculate the height using the luminance algorithm
+        return ( 0.299f * flR ) + ( 0.587f * flG ) + ( 0.114f * flB );  // Calculate the height using the luminance algorithm
 }
 
 void Mesh :: buildVBOs()
@@ -246,13 +244,13 @@ void Mesh :: buildVBOs()
         glBindBuffer( GL_ARRAY_BUFFER, m_nVBOVertices );                // Bind the buffer
 
         // Load the data
-        glBufferData( GL_ARRAY_BUFFER, m_nVertexCount*3*sizeof(float), m_pVertices, GL_STATIC_DRAW );
+        glBufferData( GL_ARRAY_BUFFER, m_nVertexCount * 3 * sizeof(float), m_pVertices, GL_STATIC_DRAW );
 
         // Generate and bind the texture coordinate buffer
         glGenBuffers( 1, &m_nVBOTexCoords );                            // Get a valid name
         glBindBuffer( GL_ARRAY_BUFFER, m_nVBOTexCoords );               // Bind the buffer
         // Load the data
-        glBufferData( GL_ARRAY_BUFFER, m_nVertexCount*2*sizeof(float), m_pTexCoords, GL_STATIC_DRAW );
+        glBufferData( GL_ARRAY_BUFFER, m_nVertexCount * 2 * sizeof(float), m_pTexCoords, GL_STATIC_DRAW );
 
         // Our copy of the data is no longer necessary, it is safe in the graphics card
         delete[] m_pVertices; m_pVertices = NULL;
