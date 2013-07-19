@@ -10,13 +10,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 
-// Mesh Generation Paramaters
-#define MESH_RESOLUTION  4.0f                                                     // Pixels Per Vertex
-#define MESH_HEIGHTSCALE 1.0f                                                     // Mesh Height Scale
+// Mesh generation paramaters
+static const float MESH_RESOLUTION  = 4.0f;                                       // Pixels per vertex
+static const float MESH_HEIGHTSCALE = 1.0f;                                       // Mesh height scale
 
 static const char * TERRAIN_FILE_PATH = "data/terrain.bmp";
 
-sf::Clock theClock;
+const sf::Clock theClock;
 
 
 struct Vertex                                                                     // Vertex
@@ -26,7 +26,7 @@ struct Vertex                                                                   
         float z;                                                                  // Z Component
 };
 
-struct TexCoord                                                                   // Texture Coordinate Class
+struct TexCoord                                                                   // Texture coordinate class
 {
         float u;                                                                  // U Component
         float v;                                                                  // V Component
@@ -45,7 +45,8 @@ public:
   unsigned int m_nVBOVertices;                                                    // Vertex VBO name
   unsigned int m_nVBOTexCoords;                                                   // Texture coordinate VBO name
 
-  sf::Image image;         // Heightmap data
+  // Heightmap data
+  sf::Image image;
 
   Mesh();                                                                         // Mesh constructor
   ~Mesh();                                                                        // Mesh deconstructor
@@ -73,13 +74,13 @@ void initGL()
         g_meshPtr->buildVBOs();                                                   // Build the VBOs
 
         // Setup GL states
-        glClearColor (0.0f, 0.0f, 0.0f, 0.5f);                                    // Black background
-        glClearDepth (1.0f);                                                      // Depth buffer setup
-        glDepthFunc (GL_LEQUAL);                                                  // The type of depth testing (less or equal)
-        glEnable (GL_DEPTH_TEST);                                                 // Enable depth testing
-        glShadeModel (GL_SMOOTH);                                                 // Select smooth shading
-        glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);                       // Set perspective calculations to most accurate
-        glEnable( GL_TEXTURE_2D );                                                // Enable textures
+        glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                                     // Black background
+        glClearDepth(1.0f);                                                       // Depth buffer setup
+        glDepthFunc(GL_LEQUAL);                                                   // The type of depth testing (less or equal)
+        glEnable(GL_DEPTH_TEST);                                                  // Enable depth testing
+        glShadeModel(GL_SMOOTH);                                                  // Select smooth shading
+        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);                        // Set perspective calculations to most accurate
+        glEnable(GL_TEXTURE_2D);                                                  // Enable textures
         glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );                                      // Set the color to white
 }
 
@@ -159,7 +160,7 @@ Mesh :: Mesh()
 Mesh :: ~Mesh()
 {
         // Delete VBOs
-        unsigned int nBuffers[2] = { m_nVBOVertices, m_nVBOTexCoords };
+        const unsigned int nBuffers[2] = { m_nVBOVertices, m_nVBOTexCoords };
         glDeleteBuffers( 2, nBuffers );                                           // Free the memory
         // Delete data
         if( m_pVertices ) {                                                       // Deallocate vertex data
