@@ -141,6 +141,20 @@ void drawGLScene()
         glDisableClientState( GL_TEXTURE_COORD_ARRAY );                           // Disable texture coord arrays
 }
 
+/* IN:  MATRIX = GL_MODELVIEW   */
+/* OUT: MATRIX = GL_MODELVIEW   */
+void resizeGLScene (int width, int height)                             // Reshape the window when it's moved or resized
+{
+        glLoadIdentity ();                                             // Reset the modelview matrix
+
+        glMatrixMode(GL_PROJECTION);                                   // Select the projection matrix
+        glLoadIdentity();                                              // Reset the projection matrix
+        gluPerspective(45.0f, (GLfloat)(width)/(GLfloat)(height),      // Calculate the aspect ratio of the window
+                        1.0f, 1000.0f);
+
+        glMatrixMode(GL_MODELVIEW);                                    // Select the modelview matrix
+}
+
 Mesh :: Mesh() :
         // Set pointers to NULL
         m_nVertexCount (0),
@@ -252,22 +266,6 @@ void Mesh :: buildVBOs()
         delete[] m_pVertices;  m_pVertices  = NULL;
         delete[] m_pTexCoords; m_pTexCoords = NULL;
 }
-
-
-/* IN:  MATRIX = GL_MODELVIEW   */
-/* OUT: MATRIX = GL_MODELVIEW   */
-void resizeGLScene (int width, int height)                             // Reshape the window when it's moved or resized
-{
-        glLoadIdentity ();                                             // Reset the modelview matrix
-
-        glMatrixMode(GL_PROJECTION);                                   // Select the projection matrix
-        glLoadIdentity();                                              // Reset the projection matrix
-        gluPerspective(45.0f, (GLfloat)(width)/(GLfloat)(height),      // Calculate the aspect ratio of the window
-                        1.0f, 1000.0f);
-
-        glMatrixMode(GL_MODELVIEW);                                    // Select the modelview matrix
-}
-
 
 int main()
 {
