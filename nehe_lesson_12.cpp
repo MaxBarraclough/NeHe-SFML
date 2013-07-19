@@ -32,7 +32,7 @@ static GLfloat topcol[5][3] =
 };
 
 // Build cube display lists
-GLvoid BuildLists()
+GLvoid buildLists()
 {
         box = glGenLists(2);                                                            // Generate 2 different lists
         glNewList(box,GL_COMPILE);                                                      // Start with the box list
@@ -115,7 +115,7 @@ void loadGLTextures()                                                           
 
 GLvoid resizeGLScene(GLsizei width, GLsizei height)                                     // Resize and initialize the GL window
 {
-        if (height==0)                                                                  // Prevent a divide by zero by
+        if (height == 0)                                                                // Prevent a divide by zero by
         {
                 height=1;                                                               // Making height equal one
         }
@@ -136,7 +136,7 @@ void initGL()                                                                   
 {
         loadGLTextures();                                                               // Jump to texture loading routine
 
-        BuildLists();                                                                   // Jump to the code that creates our display lists
+        buildLists();                                                                   // Jump to the code that creates our display lists
 
         glEnable(GL_TEXTURE_2D);                                                        // Enable texture mapping
         glShadeModel(GL_SMOOTH);                                                        // Enable smooth shading
