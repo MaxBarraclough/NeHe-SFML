@@ -97,10 +97,11 @@ void updateAngle()
         g_degreesRotation = (float) (( theClock.getElapsedTime().asMilliseconds() % (360 * MILLISECONDS_PER_DEGREE)) / MILLISECONDS_PER_DEGREE_F);
 }
 
-/* IN:  MATRIX = GL_MODELVIEW   */
-/* OUT: MATRIX = unchanged      */
+/* IN:  MATRIX = either    */
+/* OUT: MATRIX = MODELVIEW */
 void drawGLScene()
 {
+        glMatrixMode(GL_MODELVIEW);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                       // Clear screen and depth buffer
         glLoadIdentity();                                                         // Reset the modelview matrix
 
@@ -142,7 +143,7 @@ void drawGLScene()
 }
 
 /* IN:  MATRIX = GL_MODELVIEW   */
-/* OUT: MATRIX = GL_MODELVIEW   */
+/* OUT: MATRIX = GL_PROJECTION  */
 void resizeGLScene (int width, int height)                             // Reshape the window when it's moved or resized
 {
         glLoadIdentity ();                                             // Reset the modelview matrix
@@ -151,8 +152,6 @@ void resizeGLScene (int width, int height)                             // Reshap
         glLoadIdentity();                                              // Reset the projection matrix
         gluPerspective(45.0f, (GLfloat)(width)/(GLfloat)(height),      // Calculate the aspect ratio of the window
                         1.0f, 1000.0f);
-
-        glMatrixMode(GL_MODELVIEW);                                    // Select the modelview matrix
 }
 
 Mesh :: Mesh() :
