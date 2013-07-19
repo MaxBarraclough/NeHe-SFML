@@ -85,7 +85,7 @@ void initGL()
         glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );                                      // Set the color to white
 }
 
-void update()                                                                     // Perform motion updates here
+void updateAngle()
 {
         // Rotation[in degrees] = time[in seconds] * 25
         // We do some fixed-point arithmetic to modulo-off any extra
@@ -97,10 +97,12 @@ void update()                                                                   
         g_degreesRotation = (float) (( theClock.getElapsedTime().asMilliseconds() % (360 * MILLISECONDS_PER_DEGREE)) / MILLISECONDS_PER_DEGREE_F);
 }
 
-void draw()
+/* IN:  MATRIX = GL_MODELVIEW   */
+/* OUT: MATRIX = unchanged      */
+void drawGLScene()
 {
-        glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                      // Clear screen and depth buffer
-        glLoadIdentity ();                                                        // Reset the modelview matrix
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                       // Clear screen and depth buffer
+        glLoadIdentity();                                                         // Reset the modelview matrix
 
         // Get FPS
         {
@@ -127,7 +129,7 @@ void draw()
 
         // Set pointers to our data
         glBindBuffer( GL_ARRAY_BUFFER, g_mesh.m_nVBOVertices );
-        glVertexPointer( 3, GL_FLOAT, 0, (char *) NULL );                         // Set the vertex pointer to the vertex buffer
+        glVertexPointer(   3, GL_FLOAT, 0, (char *) NULL );                       // Set the vertex pointer to the vertex buffer
         glBindBuffer( GL_ARRAY_BUFFER, g_mesh.m_nVBOTexCoords );
         glTexCoordPointer( 2, GL_FLOAT, 0, (char *) NULL );                       // Set the texcoord pointer to the texcoord buffer
 
@@ -247,20 +249,23 @@ void Mesh :: buildVBOs()
         glBufferData( GL_ARRAY_BUFFER, m_nVertexCount * 2 * sizeof(float), m_pTexCoords, GL_STATIC_DRAW );
 
         // Our copy of the data is no longer necessary, it is safe in the graphics card
-        delete[] m_pVertices; m_pVertices   = NULL;
+        delete[] m_pVertices;  m_pVertices  = NULL;
         delete[] m_pTexCoords; m_pTexCoords = NULL;
 }
 
 
-void resizeGLScene (int width, int height)                              // Reshape the window when it's moved or resized
+/* IN:  MATRIX = GL_MODELVIEW   */
+/* OUT: MATRIX = GL_MODELVIEW   */
+void resizeGLScene (int width, int height)                             // Reshape the window when it's moved or resized
 {
-        glViewport (0, 0, (GLsizei)(width), (GLsizei)(height));         // Reset the current viewport
-        glMatrixMode (GL_PROJECTION);                                   // Select the projection matrix
-        glLoadIdentity ();                                              // Reset the projection matrix
-        gluPerspective (45.0f, (GLfloat)(width)/(GLfloat)(height),      // Calculate the aspect ratio of the window
+        glLoadIdentity ();                                             // Reset the modelview matrix
+
+        glMatrixMode(GL_PROJECTION);                                   // Select the projection matrix
+        glLoadIdentity();                                              // Reset the projection matrix
+        gluPerspective(45.0f, (GLfloat)(width)/(GLfloat)(height),      // Calculate the aspect ratio of the window
                         1.0f, 1000.0f);
-        glMatrixMode (GL_MODELVIEW);                                    // Select the modelview matrix
-        glLoadIdentity ();                                              // Reset the modelview matrix
+
+        glMatrixMode(GL_MODELVIEW);                                    // Select the modelview matrix
 }
 
 
@@ -308,8 +313,8 @@ int main()
                 // but don't forget it if you use multiple windows or controls
                 myWindow.setActive();
 
-                update();
-                draw();
+                updateAngle();
+                drawGLScene();
 
                 // Finally, display rendered frame on screen
                 myWindow.display();
