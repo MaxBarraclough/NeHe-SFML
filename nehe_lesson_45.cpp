@@ -128,9 +128,20 @@ void drawGLScene()
         glEnableClientState( GL_VERTEX_ARRAY );                                   // Enable vertex arrays
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );                            // Enable texture coord arrays
 
-        // Set pointers to our data
+        // Set 'pointers' (not C pointers!) to our data, stored in VRAM.
+        // The last gl*Pointer parameters do something special here:
+
+        // From https://www.opengl.org/sdk/docs/man2/xhtml/glVertexPointer.xml :
+
+        // > If a non-zero named buffer object is bound to the GL_ARRAY_BUFFER target
+        // > (see glBindBuffer) while a vertex array is
+        // > specified, pointer is treated as a byte offset into the buffer object's data store.
+        // > Also, the buffer object binding (GL_ARRAY_BUFFER_BINDING) is saved as vertex array
+        // > client-side state (GL_VERTEX_ARRAY_BUFFER_BINDING).
+
         glBindBuffer( GL_ARRAY_BUFFER, g_mesh.m_nVBOVertices );
         glVertexPointer(   3, GL_FLOAT, 0, (char *) NULL );                       // Set the vertex pointer to the vertex buffer
+
         glBindBuffer( GL_ARRAY_BUFFER, g_mesh.m_nVBOTexCoords );
         glTexCoordPointer( 2, GL_FLOAT, 0, (char *) NULL );                       // Set the texcoord pointer to the texcoord buffer
 
