@@ -58,21 +58,21 @@ public:
   void buildVBOs();
 };
 
-Mesh*        g_meshPtr = NULL;                                                    // Mesh data
-float        g_degreesRotation = 0.0f;                                            // Rotation
-unsigned int g_FPS     = 0;                                                       // FPS
-unsigned int g_frames  = 0;                                                       // FPS frame counter
-unsigned int g_lastFPS = 0;                                                       // Last FPS check time
+
+static Mesh         g_mesh;                                                       // Mesh data
+static float        g_degreesRotation = 0.0f;                                     // Rotation
+static unsigned int g_FPS     = 0;                                                // FPS
+static unsigned int g_frames  = 0;                                                // FPS frame counter
+static unsigned int g_lastFPS = 0;                                                // Last FPS check time
 
 
 void initGL()
 {
         // Load the mesh data
-        g_meshPtr = new Mesh();                                                   // Instantiate our mesh
-        g_meshPtr->loadHeightmap(MESH_HEIGHTSCALE, MESH_RESOLUTION);              // Load our heightmap
+        g_mesh.loadHeightmap(MESH_HEIGHTSCALE, MESH_RESOLUTION);                  // Load our heightmap
 
         // Load vertex data into graphics card memory
-        g_meshPtr->buildVBOs();                                                   // Build the VBOs
+        g_mesh.buildVBOs();                                                       // Build the VBOs
 
         // Setup GL states
         glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                                     // Black background
@@ -83,14 +83,6 @@ void initGL()
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);                        // Set perspective calculations to most accurate
         glEnable(GL_TEXTURE_2D);                                                  // Enable textures
         glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );                                      // Set the color to white
-}
-
-void deinitialize ()                                                              // Any user deinitialization goes here
-{
-        if( g_meshPtr ) {                                                         // Deallocate our mesh data
-                delete g_meshPtr;                                                 // And delete VBOs
-                g_meshPtr = NULL;
-        }
 }
 
 void update()                                                                     // Perform motion updates here
@@ -113,13 +105,13 @@ void draw()
         // Get FPS
         {
                 const int milliseconds = theClock.getElapsedTime().asMilliseconds();
-                if( milliseconds - g_lastFPS >= 1000 )                            // When 1 second has passed...
+                if ( milliseconds - g_lastFPS >= 1000 )                           // When 1 second has passed...
                 {
                         g_lastFPS = milliseconds;                                 // Update our time variable
                         g_FPS     = g_frames;                                     // Save the FPS
                         g_frames  = 0;                                            // Reset the FPS counter
 
-                        printf( "With VBOs: %d Triangles, %d FPS\n", g_meshPtr->m_nVertexCount / 3, g_FPS );
+                        printf( "With VBOs: %d Triangles, %d FPS\n", g_mesh.m_nVertexCount / 3, g_FPS );
                 }
         }
         ++g_frames;                                                               // Increment our FPS counter
@@ -134,15 +126,13 @@ void draw()
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );                            // Enable texture coord arrays
 
         // Set pointers to our data
-        {
-                glBindBuffer( GL_ARRAY_BUFFER, g_meshPtr->m_nVBOVertices );
-                glVertexPointer( 3, GL_FLOAT, 0, (char *) NULL );                 // Set the vertex pointer to the vertex buffer
-                glBindBuffer( GL_ARRAY_BUFFER, g_meshPtr->m_nVBOTexCoords );
-                glTexCoordPointer( 2, GL_FLOAT, 0, (char *) NULL );               // Set the texcoord pointer to the texcoord buffer
-        }
+        glBindBuffer( GL_ARRAY_BUFFER, g_mesh.m_nVBOVertices );
+        glVertexPointer( 3, GL_FLOAT, 0, (char *) NULL );                         // Set the vertex pointer to the vertex buffer
+        glBindBuffer( GL_ARRAY_BUFFER, g_mesh.m_nVBOTexCoords );
+        glTexCoordPointer( 2, GL_FLOAT, 0, (char *) NULL );                       // Set the texcoord pointer to the texcoord buffer
 
         // Render
-        glDrawArrays( GL_TRIANGLES, 0, g_meshPtr->m_nVertexCount );               // Draw all of the triangles at once
+        glDrawArrays( GL_TRIANGLES, 0, g_mesh.m_nVertexCount );                   // Draw all of the triangles at once
 
         // Disable pointers
         glDisableClientState( GL_VERTEX_ARRAY );                                  // Disable vertex arrays
@@ -165,13 +155,14 @@ Mesh :: ~Mesh()
         // Delete VBOs
         const unsigned int nBuffers[2] = { m_nVBOVertices, m_nVBOTexCoords };
         glDeleteBuffers( 2, nBuffers );                                           // Free the memory
+
         // Delete data
-        if( m_pVertices ) {                                                       // Deallocate vertex data
+        if ( m_pVertices != NULL ) {                                              // Deallocate vertex data
                 delete[] m_pVertices;
                 m_pVertices = NULL;
         }
 
-        if( m_pTexCoords ) {                                                      // Deallocate texture coord data
+        if ( m_pTexCoords != NULL ) {                                             // Deallocate texture coord data
                 delete[] m_pTexCoords;
                 m_pTexCoords = NULL;
         }
@@ -180,9 +171,7 @@ Mesh :: ~Mesh()
 void Mesh :: loadHeightmap( float flHeightScale, float flResolution )
 {
         // Generate vertex field
-
-        if( !m_image.loadFromFile(TERRAIN_FILE_PATH) ) {
-
+        if ( !m_image.loadFromFile(TERRAIN_FILE_PATH) ) {
                 fputs("Error loading heightmap file: ", stderr);
                 fputs(TERRAIN_FILE_PATH, stderr);
                 fputc('\n', stderr);
@@ -234,7 +223,7 @@ float Mesh :: pointHeight( int nX, int nY )
         sf::Vector2u imageSize = m_image.getSize();
 
         // Calculate the position in the texture, being careful not to overflow
-        int  nPos = ( ( nX % imageSize.x )  + ( ( nY % imageSize.y ) * imageSize.x ) ) * 3;
+        int  nPos = ( ( nX % imageSize.x ) + ( ( nY % imageSize.y ) * imageSize.x ) ) * 3;
         float flR = (float) m_image.getPixelsPtr()[ nPos ];             // Get the red component
         float flG = (float) m_image.getPixelsPtr()[ nPos + 1 ];         // Get the green component
         float flB = (float) m_image.getPixelsPtr()[ nPos + 2 ];         // Get the blue component
@@ -253,6 +242,7 @@ void Mesh :: buildVBOs()
         // Generate and bind the texture coordinate buffer
         glGenBuffers( 1, &m_nVBOTexCoords );                            // Get a valid name
         glBindBuffer( GL_ARRAY_BUFFER, m_nVBOTexCoords );               // Bind the buffer
+
         // Load the data
         glBufferData( GL_ARRAY_BUFFER, m_nVertexCount * 2 * sizeof(float), m_pTexCoords, GL_STATIC_DRAW );
 
