@@ -2,10 +2,11 @@
 ==========================================================================
 
 CMake is used to build the tutorials.
-Whatever your platform, you will need [CMake](http://www.cmake.org/).
+Whatever your platform, you will need [CMake](http://www.cmake.org/)
+and [SFML 2.0](http://www.sfml-dev.org/).
 
-There is an [official SFML tutorial](https://github.com/LaurentGomila/SFML/wiki/Tutorial%3A-Build-your-SFML-project-with-CMake) on the topic of building your
-CMake-based SFML code.
+There is an [official SFML tutorial](https://github.com/LaurentGomila/SFML/wiki/Tutorial%3A-Build-your-SFML-project-with-CMake)
+on the topic of building your CMake-based SFML code.
 
 This document aims to be more immediately useful to someone
 going through the tutorial.
@@ -42,7 +43,7 @@ Using CMake GUI and Visual Studio 2010 64 bit
    NeHe-SFML2, called, say, "win-build".
    (It will still work if you just choose NeHe-SFML2, but it's messy.)
 
-*  Using the "Add Entry" button, add two entries of type FILEPATH:
+*  Using the "Add Entry" button, add two entries of type PATH:
 
               CMAKE_MODULE_PATH    c:/wherever/SFML-2.0/cmake/Modules
               SFML_ROOT            c:/wherever/SFML-2.0/
@@ -65,7 +66,7 @@ Using CMake GUI and Visual Studio 2010 64 bit
 
 *  In Visual Studio, open
 
-       c:\wherever\NeHe-SFML2\ALL_BUILD.vcxproj
+       c:\wherever\NeHe-SFML2\win-build\ALL_BUILD.vcxproj
 
 *  Build as usual
 
